@@ -29,41 +29,74 @@ public class DataManager {
     private DataManager() {
         // TODO: Get from database
         DatabaseManager dbm = DatabaseManager.getInstance();
-        clients = null;
-        sellers = null;
-        products = null;
-        offers = null;
-        transactions = null;
+        clients = dbm.openConnection().selectClients();
+        sellers = dbm.selectSellers();
+        products = dbm.selectProducts();
+        offers = dbm.selectOffers();
+        transactions = dbm.selectTransactions().closeConnection();
     }
 
     // -----------------------------------------------------------------
     // Methods
 
     /**
+     * @param client
+     */
+    public void addClient(ClientModel client) {
+        clients.add(client);
+        DatabaseManager
+            .getInstance()
+            .openConnection()
+            .insertClient(client)
+            .closeConnection();
+    }
+
+    /**
+     * @param seller
+     */
+    public void addSeller(SellerModel seller) {
+        sellers.add(seller);
+        DatabaseManager
+            .getInstance()
+            .openConnection()
+            .insertSeller(seller)
+            .closeConnection();
+    }
+
+    /**
      * @param product
      */
     public void addProduct(ProductModel product) {
-        // TODO: Also add in Database
-        DatabaseManager.getInstance();
         products.add(product);
+        DatabaseManager
+            .getInstance()
+            .openConnection()
+            .insertProduct(product);
+            .closeConnection();
     }
 
     /**
      * @param offer
      */
     public void addOffer(OfferModel offer) {
-        // TODO: Also add in Database
-        DatabaseManager.getInstance();
         offers.add(offer);
+        DatabaseManager
+            .getInstance()
+            .openConnection()
+            .insertOffer(offer);
+            .closeConnection();
     }
 
     /**
      * @param transaction
      */
     public void addTransaction(TransactionModel transaction) {
-        // TODO: Also add in Database
-        DatabaseManager.getInstance();
         transactions.add(transaction);
+        DatabaseManager
+            .getInstance()
+            .openConnection()
+            .insertTransaction(transaction);
+            .closeConnection();
     }
 
     // -----------------------------------------------------------------
@@ -93,7 +126,7 @@ public class DataManager {
     }
 
     /**
-     * @param id
+     * @param id Seller's id.
      * @return
      */
     public ArrayList<ProductModel> getProductsWithSellerId(int id) {
@@ -127,7 +160,7 @@ public class DataManager {
     }
 
     /**
-     * @param id
+     * @param id Seller's id.
      * @return
      */
     public ArrayList<OfferModel> getOffersWithSellerId(int id) {
@@ -148,7 +181,7 @@ public class DataManager {
     }
 
     /**
-     * @param id
+     * @param id Seller's id.
      * @return
      */
     public ArrayList<TransactionModel> getTransactionsWithSellerId(int id) {
