@@ -20,7 +20,7 @@ public class TransactionModel {
      * @param wasAutomatic
      */
     public TransactionModel(int sellerId, ClientModel client, OfferModel offer, boolean wasAutomatic) {
-        id = -1; // TODO: Get id from database
+        id = DataManager.getInstance().getNextTransactionId();
         this.sellerId = sellerId;
         this.client = client;
         this.offer = offer;

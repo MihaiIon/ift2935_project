@@ -18,7 +18,7 @@ public class OfferModel {
      * @param amount
      */
     public OfferModel(int clientId, ProductModel product, float amount) {
-        id = -1; // TODO: Get id from database
+        id = DataManager.getInstance().getNextOfferId();
         this.product = product;
         this.amount = amount;
         offerDate = new Timestamp(System.currentTimeMillis());

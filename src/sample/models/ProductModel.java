@@ -26,7 +26,7 @@ public class ProductModel {
      * @param description
      */
     public ProductModel(int sellerId, String name, String description, float price) {
-        id = -1; // TODO: Get id from database when seller accepts estimation
+        id = DataManager.getInstance().getNextProductId();
         this.sellerId = sellerId;
         this.name = name;
         this.description = description;
