@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+<GridPane hgap="10.0" maxWidth="Infinity" vgap="5.0" xmlns="http://javafx.com/javafx/8.0.121"
+          xmlns:fx="http://javafx.com/fxml/1">
+    <stylesheets>
+        <URL value="@../../styles.css"/>
+    </stylesheets>
+    <columnConstraints>
+        <ColumnConstraints hgrow="NEVER" maxWidth="Infinity" minWidth="10.0"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" vgrow="NEVER"/>
+        <RowConstraints minHeight="10.0" vgrow="NEVER"/>
+        <RowConstraints minHeight="10.0" vgrow="NEVER"/>
+        <RowConstraints minHeight="10.0" vgrow="NEVER"/>
+        <RowConstraints minHeight="10.0" vgrow="NEVER"/>
+    </rowConstraints>
+    <children>
+        <Label text="My products" GridPane.rowIndex="0"/>
+        <ListView maxWidth="Infinity" styleClass="o-list" GridPane.rowIndex="1"/>
+        <Label text="Offers per product" GridPane.rowIndex="2"/>
+        <ListView maxWidth="Infinity" styleClass="o-list" GridPane.rowIndex="3"/>
+        <Button styleClass="o-btn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Accept Offer"
+                GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" disable="true"/>
+    </children>
+</GridPane>
