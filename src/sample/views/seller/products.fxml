@@ -22,7 +22,7 @@
         <Label text="My products" GridPane.rowIndex="0"/>
         <ListView maxWidth="Infinity" styleClass="o-list" GridPane.rowIndex="1"/>
         <Label text="Offers per product" GridPane.rowIndex="2"/>
-        <ListView maxWidth="Infinity" styleClass="o-list" GridPane.rowIndex="3"/>
+        <ListView maxWidth="Infinity" styleClass="o-list" GridPane.rowIndex="3" disable="true"/>
         <Button styleClass="o-btn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Accept Offer"
                 GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" disable="true"/>
     </children>
