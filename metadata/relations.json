@@ -1,0 +1,35 @@
+{
+  "Client": {
+    "primary_key": "id",
+    "foreign_keys": [],
+    "attributes": ["name"]
+  },
+  "Seller": {
+    "primary_key": "id",
+    "foreign_keys": [],
+    "attributes": ["name"]
+  },
+  "Product": {
+    "primary_key": "id",
+    "foreign_keys": ["seller_id"],
+    "attributes": [
+      "name",
+      "state",
+      "description",
+      "seller_price",
+      "expert_price",
+      "creation_date",
+      "publish_date"
+    ]
+  },
+  "Offer": {
+    "primary_key": "id",
+    "foreign_keys": ["client_id", "product_id", "seller_id"],
+    "attributes": ["amount", "offer_date"]
+  },
+  "Transaction": {
+    "primary_key": "id",
+    "foreign_keys": ["client_id", "product_id", "seller_id", "offer_id"],
+    "attributes": ["is_automatic", "transaction_date"]
+  }
+}
