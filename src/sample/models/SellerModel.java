@@ -14,7 +14,7 @@ public class SellerModel {
      * @param name Seller's name.
      */
     public SellerModel(String name) {
-        id = -1; // TODO: Get id from database
+        id = DataManager.getInstance().getNextSellerId();
         this.name = name;
         products = new ArrayList<>();
     }

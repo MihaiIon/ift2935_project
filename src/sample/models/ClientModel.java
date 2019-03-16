@@ -11,7 +11,7 @@ public class ClientModel {
      * @param name Client's name.
      */
     public ClientModel(String name) {
-        id = -1; // TODO: Get id from database
+        id = DataManager.getInstance().getNextClientId();
         this.name = name;
     }
 
