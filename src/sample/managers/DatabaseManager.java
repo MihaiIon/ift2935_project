@@ -2,6 +2,7 @@ package sample.managers;
 
 public class DatabaseManager {
     // Singleton
+    private static boolean CREATE_DATABASE = false; 
     private static DatabaseManager singleton = null;
 
     /**
@@ -14,10 +15,15 @@ public class DatabaseManager {
         return singleton;
     }
 
+    /**
+     * Default constructor.
+     */
     private DatabaseManager() {
         // If the database is empty...
-        if(true) { 
+        if(CREATE_DATABASE) {
+            this.openConnection();
             // Fill it
+            this.closeConnection();
         }
     }
 
