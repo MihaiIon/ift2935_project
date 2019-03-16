@@ -1,5 +1,7 @@
 package sample.models;
 
+import sample.managers.DataManager;
+
 import java.util.ArrayList;
 
 public class SellerModel {

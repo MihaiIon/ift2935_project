@@ -1,5 +1,7 @@
 package sample.models;
 
+import sample.managers.DataManager;
+
 import java.sql.Timestamp;
 
 public class ProductModel {

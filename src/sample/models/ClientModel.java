@@ -1,5 +1,7 @@
 package sample.models;
 
+import sample.managers.DataManager;
+
 public class ClientModel {
 
     private int id;
