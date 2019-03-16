@@ -1,8 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="sample.controllers.client.CreateOfferController">
-
-</AnchorPane>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+<GridPane xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="sample.controllers.client.CreateOfferController">
+    <stylesheets>
+        <URL value="@../../styles.css"/>
+    </stylesheets>
+    <columnConstraints>
+        <ColumnConstraints hgrow="ALWAYS" minWidth="10.0"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" vgrow="NEVER"/>
+        <RowConstraints maxHeight="-Infinity" minHeight="10.0" percentHeight="0.0" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="10.0" vgrow="NEVER"/>
+        <RowConstraints minHeight="10.0" vgrow="NEVER"/>
+        <RowConstraints minHeight="10.0" vgrow="NEVER"/>
+    </rowConstraints>
+    <children>
+        <Label text="Available Products"/>
+        <ListView styleClass="o-list" GridPane.rowIndex="1"/>
+        <Label disable="true" text="Offer" GridPane.rowIndex="2"/>
+        <TextField disable="true" GridPane.rowIndex="3"/>
+        <Button disable="true" mnemonicParsing="false" text="Submit" GridPane.rowIndex="4"/>
+    </children>
+</GridPane>
