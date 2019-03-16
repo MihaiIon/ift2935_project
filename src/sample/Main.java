@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import sample.managers.DataManager;
 
 public class Main extends Application {
 
@@ -12,10 +13,10 @@ public class Main extends Application {
     private static int height = 680;
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception {
 
         // Initialize Manager
-//        DataManager.init();
+        DataManager.getInstance();
 
         // Create Window
         Parent root = FXMLLoader.load(getClass().getResource("views/main.fxml"));

@@ -29,6 +29,7 @@ public class DataManager {
     private DataManager() {
         // TODO: Get from database
         DatabaseManager dbm = DatabaseManager.getInstance();
+        dbm.openConnection();
         clients = null;
         sellers = null;
         products = null;
