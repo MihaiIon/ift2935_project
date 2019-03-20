@@ -6,17 +6,21 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import sample.managers.DataManager;
+import sample.controllers.seller.SummaryController;
 
 public class Main extends Application {
 
     private static int width = 900;
     private static int height = 680;
 
+
     @Override
     public void start(Stage primaryStage) throws Exception {
 
         // Initialize Manager
         DataManager.getInstance();
+
+
 
         // Create Window
         Parent root = FXMLLoader.load(getClass().getResource("views/main.fxml"));

@@ -30,10 +30,10 @@ public class DataManager {
         DatabaseManager dbm = DatabaseManager.getInstance();
         dbm.openConnection();
         clients = dbm.selectClients();
-        sellers = dbm.selectSellers();
         products = dbm.selectProducts();
-        offers = dbm.selectOffers();
-        transactions = dbm.selectTransactions();
+        sellers = dbm.selectSellers(products);
+        offers = dbm.selectOffers(products);
+        transactions = dbm.selectTransactions(clients, offers);
         dbm.closeConnection();
     }
 
@@ -86,6 +86,16 @@ public class DataManager {
 
     public ArrayList<ClientModel> getClients() {
         return clients;
+    }
+
+    public ClientModel getClientFromId(int id){
+        for(ClientModel c: clients){
+            if(c.getId() == id){
+                return c;
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -180,5 +190,9 @@ public class DataManager {
      */
     public int getNextTransactionId() {
         return transactions.size();
+    }
+
+    public static ClientModel findClientById(ArrayList<ClientModel> clients, int  id){
+        return clients.stream().filter(client -> id == client.getId()).findFirst().orElse(null);
     }
 }

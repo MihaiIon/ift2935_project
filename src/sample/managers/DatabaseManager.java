@@ -2,9 +2,7 @@ package sample.managers;
 
 import sample.models.*;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class DatabaseManager {
@@ -33,6 +31,7 @@ public class DatabaseManager {
         // If the database is empty...
         if (CREATE_DATABASE) {
             openConnection();
+
             // Fill it
             closeConnection();
         }
@@ -86,31 +85,161 @@ public class DatabaseManager {
     // TODO
     public ArrayList<ClientModel> selectClients() {
         checkConnection();
-        return null;
-    }
+        Statement stmt = null;
+        ArrayList<ClientModel> clients = new ArrayList<>();
 
-    // TODO
-    public ArrayList<SellerModel> selectSellers() {
-        checkConnection();
-        return null;
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM client");
+            while(rs.next()){
+                clients.add(new ClientModel(Integer.valueOf(rs.getString("id")),rs.getString("name")));
+            }
+            rs.close();
+            stmt.close();
+        }
+        catch ( Exception e ) {
+            System.err.println(e.getStackTrace());
+            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+            System.exit(0);
+    }
+        return clients;
     }
 
     // TODO
     public ArrayList<ProductModel> selectProducts() {
         checkConnection();
-        return null;
+
+        Statement stmt = null;
+        ArrayList<ProductModel> products = new ArrayList<>();
+
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM product order by seller_id;");
+            while(rs.next()){
+                products.add(new ProductModel(rs.getInt("id"),
+                        rs.getInt("seller_id"),
+                        rs.getString("name"),
+                        rs.getString("description"),
+                        rs.getFloat("seller_price"),
+                        rs.getFloat("expert_price"),
+                        rs.getTimestamp("creation_date"),
+                        rs.getTimestamp("publich_date")));
+            }
+            rs.close();
+            stmt.close();
+        }
+        catch ( Exception e ) {
+            System.err.println(e.getStackTrace());
+            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+            System.exit(0);
+        }
+        return products;
     }
 
     // TODO
-    public ArrayList<OfferModel> selectOffers() {
+    public ArrayList<SellerModel> selectSellers( ArrayList<ProductModel> products) {
         checkConnection();
-        return null;
+        Statement stmt = null;
+        ArrayList<SellerModel> sellers = new ArrayList<>();
+
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("select * from seller order by id;");
+            int id = 0;
+            int i = 0;
+            while(rs.next()){
+
+                //New Seller
+                if(rs.getInt("id") != id) {
+
+                    ArrayList<ProductModel> arr = new ArrayList<>();
+                    sellers.add(new SellerModel(rs.getInt("id"),
+                            rs.getString("name"),
+                            arr));
+
+                }
+                //Add all products for current seller
+                while(i<products.size() && rs.getInt("id") == products.get(i).getSellerId()){
+                    sellers.get(sellers.size()-1).addProduct(products.get(i));
+                    i++;
+                }
+
+                id = rs.getInt("id");
+            }
+            rs.close();
+            stmt.close();
+
+        }
+        catch ( Exception e ) {
+            System.err.println(e.getStackTrace());
+            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+            System.exit(0);
+        }
+        return sellers;
+    }
+
+
+    // TODO
+    public ArrayList<OfferModel> selectOffers(ArrayList<ProductModel> products) {
+        checkConnection();
+        Statement stmt = null;
+        ArrayList<OfferModel> offers = new ArrayList<>();
+        int i =0;
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("select * from offer order by seller_id");
+            while(rs.next()){
+
+                if(rs.getInt("seller_id") == products.get(i).getSellerId()){
+                    offers.add(new OfferModel(rs.getInt("id"),
+                            rs.getInt("client_id"),
+                            products.get(i),
+                            rs.getFloat("amount"),
+                            rs.getTimestamp("offer_date")));
+                }
+                i++;
+            }
+            rs.close();
+            stmt.close();
+        }
+        catch ( Exception e ) {
+            System.err.println(e.getStackTrace());
+            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+            System.exit(0);
+        }
+        return offers;
     }
 
     // TODO
-    public ArrayList<TransactionModel> selectTransactions() {
+    public ArrayList<TransactionModel> selectTransactions(ArrayList<ClientModel> clients, ArrayList<OfferModel> offers) {
         checkConnection();
-        return null;
+        Statement stmt = null;
+        ArrayList<TransactionModel> transactions = new ArrayList<>();
+        int i = 0;
+
+        try {
+            stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("select * from transaction order by seller_id");
+            while(rs.next()){
+                transactions.add(new TransactionModel(
+                        rs.getInt("id"),
+                        rs.getInt("seller_id"),
+                        DataManager.findClientById(clients, rs.getInt("client_id")),
+                        offers.get(i),
+                        rs.getInt("is_automatic") !=0,
+                        rs.getTimestamp("transaction_date")
+                        ));
+
+            }
+            rs.close();
+            stmt.close();
+        }
+        catch ( Exception e ) {
+            System.err.println(e.getStackTrace());
+            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+            System.exit(0);
+        }
+        return transactions;
     }
 
     // -----------------------------------------------------------------

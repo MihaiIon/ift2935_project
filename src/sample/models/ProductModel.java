@@ -51,7 +51,7 @@ public class ProductModel {
      * @param creationDate
      * @param publishDate
      */
-    public ProductModel(int id, int sellerId, String name, String description, float sellerPrice, Float expertPrice, Timestamp creationDate, Timestamp publishDate) {
+    public ProductModel(int id, int sellerId, String name, String description, float sellerPrice, float expertPrice, Timestamp creationDate, Timestamp publishDate) {
         this.id = id;
         this.sellerId = sellerId;
         this.name = name;
