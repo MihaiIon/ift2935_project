@@ -30,6 +30,6 @@
         <!-- To call a method in the controller use : # + name of the method -->
         <Button onAction="#onSubmit" maxWidth="Infinity" mnemonicParsing="false" styleClass="o-btn" text="Submit"
                 GridPane.columnSpan="2"
-                GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" disable="false"/> <!-- Disable must be at true -->
+                GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" disable="true"/> <!-- Disable must be at true -->
     </children>
 </GridPane>

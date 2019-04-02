@@ -4,16 +4,17 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1"
+fx:controller="sample.controllers.MainController">
     <tabs>
         <Tab text="Seller">
             <content>
-                <fx:include source="./seller/index.fxml" />
+                <fx:include fx:id="sellerIndex" source="seller/sellerIndex.fxml" />
             </content>
         </Tab>
         <Tab text="Client">
             <content>
-                <fx:include source="./client/index.fxml" />
+                <fx:include fx:id="clientIndex" source="client/clientIndex.fxml" />
             </content>
         </Tab>
       <Tab text="Requests?">

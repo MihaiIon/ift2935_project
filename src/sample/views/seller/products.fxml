@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
+<?language Java?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import java.net.URL?>
@@ -24,7 +24,8 @@
         <ListView maxWidth="Infinity" styleClass="o-list" GridPane.rowIndex="1"/>
         <Label text="Offers per product" GridPane.rowIndex="2"/>
         <ListView maxWidth="Infinity" styleClass="o-list" GridPane.rowIndex="3" disable="true"/>
-        <Button styleClass="o-btn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Accept Offer"
-                GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" disable="true"/>
+        <Button fx:id="button" styleClass="o-btn" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
+                text="Accept Offer"
+                GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" disable="false" onAction="#testData"/>
     </children>
 </GridPane>

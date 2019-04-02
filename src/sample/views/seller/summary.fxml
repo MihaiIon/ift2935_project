@@ -7,7 +7,8 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane hgap="10.0" maxWidth="Infinity" vgap="5.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.seller.SummaryController">
+<GridPane xmlns:fx="http://javafx.com/fxml/1" hgap="10.0" maxWidth="Infinity" vgap="5.0"
+          xmlns="http://javafx.com/javafx/8.0.172-ea" fx:controller="sample.controllers.seller.SummaryController">
     <stylesheets>
         <URL value="@../../styles.css" />
     </stylesheets>
@@ -20,6 +21,6 @@
     </rowConstraints>
     <children>
         <Label text="Summary" GridPane.rowIndex="0" />
-        <ListView id="listView" maxHeight="Infinity" maxWidth="Infinity" styleClass="o-list" GridPane.rowIndex="1" />
+        <ListView fx:id="listView" maxHeight="Infinity" maxWidth="Infinity" styleClass="o-list" GridPane.rowIndex="1" />
     </children>
 </GridPane>
