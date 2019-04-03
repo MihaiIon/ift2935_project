@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<?import javafx.scene.control.Button?>
+<GridPane id="selectSeller" fx:id="selectSeller" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.seller.SelectSellerController">
+
+    <stylesheets>
+        <URL value="@../../styles.css" />
+    </stylesheets>
+    <columnConstraints>
+        <ColumnConstraints hgrow="NEVER" maxWidth="Infinity" />
+    </columnConstraints>
+    <children>
+        <Label text="Seller Id" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="sellerIdInput" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <Button fx:id="enterSellerId" text="Connect" GridPane.rowIndex="1" GridPane.columnIndex="1" onAction="#sellerSelect"/>
+    </children>
+   <rowConstraints>
+      <RowConstraints />
+      <RowConstraints />
+   </rowConstraints>
+
+</GridPane>

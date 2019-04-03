@@ -57,6 +57,8 @@ public class OfferModel {
         return product.getId();
     }
 
+    public ProductModel getProduct(){return product;}
+
     public int getSellerId() {
         return product.getSellerId();
     }

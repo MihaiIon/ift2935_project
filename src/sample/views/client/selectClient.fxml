@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+
+<GridPane xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1"
+          fx:id="selectClient"
+          fx:controller="sample.controllers.client.SelectClientController"
+            >
+    <stylesheets>
+        <URL value="@../../styles.css" />
+    </stylesheets>
+    <children>
+        <Label text="Enter Client ID" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <TextField fx:id="clientIdInput" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <Button fx:id="enterClientId" text="Select" GridPane.columnIndex="1" GridPane.rowIndex="1" onAction="#clientSelect"/>
+    </children>
+
+</GridPane>

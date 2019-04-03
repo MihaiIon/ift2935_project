@@ -2,15 +2,31 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.*?>
-<GridPane xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.text.Font?>
+<GridPane hgap="20.0" vgap="20.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.client.ClientIndexController">
     <columnConstraints>
-        <ColumnConstraints minWidth="10.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
     </columnConstraints>
     <rowConstraints>
-        <RowConstraints minHeight="10.0"/>
+        <RowConstraints minHeight="10.0" vgrow="NEVER" />
+        <RowConstraints minHeight="10.0" vgrow="NEVER" />
+        <RowConstraints minHeight="10.0" vgrow="ALWAYS" />
     </rowConstraints>
     <children>
-        <fx:include source="./createOffer.fxml" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <Label fx:id="label" text="Client" GridPane.columnSpan="2">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+            <GridPane.margin>
+                <Insets bottom="20.0" />
+            </GridPane.margin>
+        </Label>
+        <fx:include fx:id="createOffer" source="./createOffer.fxml" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <fx:include fx:id="clientSummary" source="./clientSummary.fxml" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="2" GridPane.vgrow="NEVER" />
+        <fx:include fx:id="selectClient" source="selectClient.fxml" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+        <fx:include fx:id="clientOffers" source="clientOffers.fxml" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
     </children>
     <padding>
         <Insets bottom="30.0" left="30.0" right="30.0" top="30.0"/>

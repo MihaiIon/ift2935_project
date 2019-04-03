@@ -165,6 +165,20 @@ public class DataManager {
     }
 
     /**
+     * @param id Client's id.
+     * @return
+     */
+    public ArrayList<OfferModel> getOffersWithClientId(int id) {
+        ArrayList<OfferModel> filteredResults = new ArrayList<>();
+        for (OfferModel offer : offers) {
+            if (offer.getClientId() == id) {
+                filteredResults.add(offer);
+            }
+        }
+        return filteredResults;
+    }
+
+    /**
      * @return
      */
     public int getNextOfferId() {

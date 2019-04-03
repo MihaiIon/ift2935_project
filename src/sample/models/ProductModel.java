@@ -26,6 +26,7 @@ public class ProductModel {
      * @param sellerId
      * @param name
      * @param description
+     * @param price
      */
     public ProductModel(int sellerId, String name, String description, float price) {
         id = DataManager.getInstance().getNextProductId();
@@ -51,7 +52,7 @@ public class ProductModel {
      * @param creationDate
      * @param publishDate
      */
-    public ProductModel(int id, int sellerId, String name, String description, float sellerPrice, float expertPrice, Timestamp creationDate, Timestamp publishDate) {
+    public ProductModel(int id, int sellerId, String name, String description, float sellerPrice, Float expertPrice, Timestamp creationDate, Timestamp publishDate) {
         this.id = id;
         this.sellerId = sellerId;
         this.name = name;
@@ -60,6 +61,11 @@ public class ProductModel {
         this.expertPrice = expertPrice;
         this.creationDate = creationDate;
         this.publishDate = publishDate;
+        if(expertPrice != null && expertPrice != 0.0f){
+            publish(expertPrice);
+        }else{
+            submit();
+        }
     }
 
     // -----------------------------------------------------------------
@@ -141,7 +147,7 @@ public class ProductModel {
         return sellerPrice;
     }
 
-    public float getExpertPrice() {
+    public Float getExpertPrice() {
         return expertPrice;
     }
 

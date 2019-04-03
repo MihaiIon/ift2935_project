@@ -20,7 +20,7 @@
     </rowConstraints>
     <children>
         <Label text="Available Products"/>
-        <ListView styleClass="o-list" GridPane.rowIndex="1"/>
+        <ListView fx:id="availableProducts" styleClass="o-list" GridPane.rowIndex="1"/>
         <Label disable="true" text="Offer" GridPane.rowIndex="2"/>
         <TextField disable="true" GridPane.rowIndex="3"/>
         <Button disable="true" mnemonicParsing="false" text="Submit" GridPane.rowIndex="4"/>

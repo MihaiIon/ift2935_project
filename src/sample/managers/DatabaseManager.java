@@ -260,6 +260,31 @@ public class DatabaseManager {
     // TODO
     public DatabaseManager insertProduct(ProductModel product) {
         checkConnection();
+        PreparedStatement pstm = null;
+        try{
+            String sql = "insert into product values (?,?,?,?,?,?,?,?,?);";
+            pstm = conn.prepareStatement(sql);
+
+            pstm.setInt(1, product.getId());System.out.println("t");
+            pstm.setInt(2, product.getSellerId());System.out.println("t");
+            pstm.setString(3, product.getName());System.out.println("t");
+            pstm.setString(4, "unknown");System.out.println("t");
+            pstm.setString(5, product.getDescription());System.out.println("t");
+            pstm.setFloat(6, product.getSellerPrice());System.out.println("t");
+            pstm.setObject(7, product.getExpertPrice(), Types.FLOAT);System.out.println("t");
+            pstm.setTimestamp(8, product.getCreationDate());System.out.println("t");
+            pstm.setTimestamp(9, product.getPublishDate());System.out.println("t");
+
+            pstm.executeUpdate();
+
+            pstm.close();
+
+
+        }catch (Exception e){
+            System.err.println(e.getStackTrace());
+            System.err.println( e.getClass().getName()+": "+ e.getMessage());
+            System.exit(0);
+        }
         return singleton;
     }
 

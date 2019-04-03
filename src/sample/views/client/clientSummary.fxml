@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+
+<GridPane xmlns="http://javafx.com/javafx/8.0.172-ea"
+          xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="sample.controllers.client.ClientSummaryController"
+          hgap="10.0" maxWidth="Infinity" vgap="5.0">
+    <stylesheets>
+        <URL value="@../../styles.css" />
+    </stylesheets>
+    <columnConstraints>
+        <ColumnConstraints hgrow="ALWAYS" maxWidth="Infinity" minWidth="10.0" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" vgrow="NEVER" />
+        <RowConstraints minHeight="10.0" vgrow="ALWAYS" />
+    </rowConstraints>
+    <children>
+        <Label text="Summary" GridPane.rowIndex="0"/>
+        <ListView fx:id="clientSummary" maxHeight="Infinity" maxWidth="Infinity" styleClass="o-list" GridPane.rowIndex="1"/>
+    </children>
+
+</GridPane>

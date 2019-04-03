@@ -21,11 +21,11 @@
     </rowConstraints>
     <children>
         <Label text="My products" GridPane.rowIndex="0"/>
-        <ListView maxWidth="Infinity" styleClass="o-list" GridPane.rowIndex="1"/>
+        <ListView fx:id="myProducts" maxWidth="Infinity" styleClass="o-list" GridPane.rowIndex="1" />
         <Label text="Offers per product" GridPane.rowIndex="2"/>
-        <ListView maxWidth="Infinity" styleClass="o-list" GridPane.rowIndex="3" disable="true"/>
+        <ListView fx:id="prices" maxWidth="Infinity" styleClass="o-list" GridPane.rowIndex="3" disable="true"/>
         <Button fx:id="button" styleClass="o-btn" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
                 text="Accept Offer"
-                GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" disable="false" onAction="#testData"/>
+                GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" disable="false"/>
     </children>
 </GridPane>
