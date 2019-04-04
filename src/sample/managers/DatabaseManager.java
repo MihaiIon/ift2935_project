@@ -265,15 +265,15 @@ public class DatabaseManager {
             String sql = "insert into product values (?,?,?,?,?,?,?,?,?);";
             pstm = conn.prepareStatement(sql);
 
-            pstm.setInt(1, product.getId());System.out.println("t");
-            pstm.setInt(2, product.getSellerId());System.out.println("t");
-            pstm.setString(3, product.getName());System.out.println("t");
-            pstm.setString(4, "unknown");System.out.println("t");
-            pstm.setString(5, product.getDescription());System.out.println("t");
-            pstm.setFloat(6, product.getSellerPrice());System.out.println("t");
-            pstm.setObject(7, product.getExpertPrice(), Types.FLOAT);System.out.println("t");
-            pstm.setTimestamp(8, product.getCreationDate());System.out.println("t");
-            pstm.setTimestamp(9, product.getPublishDate());System.out.println("t");
+            pstm.setInt(1, product.getId());
+            pstm.setInt(2, product.getSellerId());
+            pstm.setString(3, product.getName());
+            pstm.setString(4, "unknown");
+            pstm.setString(5, product.getDescription());
+            pstm.setFloat(6, product.getSellerPrice());
+            pstm.setObject(7, product.getExpertPrice(), Types.FLOAT);
+            pstm.setTimestamp(8, product.getCreationDate());
+            pstm.setTimestamp(9, product.getPublishDate());
 
             pstm.executeUpdate();
 
