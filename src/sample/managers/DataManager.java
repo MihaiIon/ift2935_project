@@ -130,6 +130,27 @@ public class DataManager {
         return filteredResults;
     }
 
+    public static ArrayList<ProductModel> getProductsWithSellerId(int id, ArrayList<ProductModel> products) {
+        ArrayList<ProductModel> filteredResults = new ArrayList<>();
+        for (ProductModel product : products) {
+            if (product.getSellerId() == id) {
+                filteredResults.add(product);
+            }
+        }
+        return filteredResults;
+    }
+
+    public static ProductModel getProductWithId(int id, ArrayList<ProductModel> products){
+        for(ProductModel product : products){
+            if(product.getId() == id){
+                return product;
+            }
+        }
+        return null;
+    }
+
+
+
     /**
      * @return
      */

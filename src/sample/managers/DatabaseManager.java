@@ -184,25 +184,34 @@ public class DatabaseManager {
         checkConnection();
         Statement stmt = null;
         ArrayList<OfferModel> offers = new ArrayList<>();
-        int i =0;
+        ArrayList<ProductModel> p = new ArrayList<>();
+        int prevId =0;
+
         try {
             stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from offer order by seller_id");
+            ResultSet rs = stmt.executeQuery("select offer.id, offer.client_id, offer.amount, offer.offer_date, product.id as product_id, product.seller_id from offer join product on offer.seller_id = product.seller_id order by product_id;");
             while(rs.next()){
+                if(rs.getInt("seller_id") != prevId){
+                    p = DataManager.getProductsWithSellerId(rs.getInt("seller_id"), products);
+                    prevId = rs.getInt("seller_id");
 
-                if(rs.getInt("seller_id") == products.get(i).getSellerId()){
+                }
+
                     offers.add(new OfferModel(rs.getInt("id"),
                             rs.getInt("client_id"),
-                            products.get(i),
+                            DataManager.getProductWithId(rs.getInt("product_id"),products),
                             rs.getFloat("amount"),
                             rs.getTimestamp("offer_date")));
-                }
-                i++;
+
+
             }
             rs.close();
             stmt.close();
         }
         catch ( Exception e ) {
+            for(ProductModel pr : p){
+                System.out.println(pr.getName());
+            }
             System.err.println(e.getStackTrace());
             System.err.println( e.getClass().getName()+": "+ e.getMessage() );
             System.exit(0);
