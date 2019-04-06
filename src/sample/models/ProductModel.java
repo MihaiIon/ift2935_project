@@ -52,7 +52,7 @@ public class ProductModel {
      * @param creationDate
      * @param publishDate
      */
-    public ProductModel(int id, int sellerId, String name, String description, float sellerPrice, Float expertPrice, Timestamp creationDate, Timestamp publishDate) {
+    public ProductModel(int id, int sellerId, String name, String state, String description, float sellerPrice, Float expertPrice, Timestamp creationDate, Timestamp publishDate) {
         this.id = id;
         this.sellerId = sellerId;
         this.name = name;
@@ -61,10 +61,20 @@ public class ProductModel {
         this.expertPrice = expertPrice;
         this.creationDate = creationDate;
         this.publishDate = publishDate;
-        if(expertPrice != null && expertPrice != 0.0f){
-            publish(expertPrice);
-        }else{
-            submit();
+        switch (state){
+            case "AVAILABLE":
+                publish(expertPrice);
+                break;
+            case "WAITING_ESTIMATION":
+                submit();
+                break;
+            case "DRAFT":
+                this.state = ProductState.DRAFT;
+                break;
+            case "UNAVAILABLE":
+                sell();
+                break;
+            default:break;
         }
     }
 
@@ -162,6 +172,11 @@ public class ProductModel {
     public Timestamp getPublishDate() {
         return publishDate;
     }
+
+    public ProductState getState(){
+        return this.state;
+    }
+
 }
 
 

@@ -48,6 +48,10 @@ public class ClientIndexController {
         createOfferController.fill(mainController.getDataManager().getAvailableProducts());
     }
 
+    public ClientModel getCurrentClient(){
+        return this.currentClient;
+    }
+
     public ListView getSummary(){
         return this.clientSummaryController.getClientSummary();
     }

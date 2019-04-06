@@ -21,6 +21,7 @@ public class OfferModel {
      */
     public OfferModel(int clientId, ProductModel product, float amount) {
         id = DataManager.getInstance().getNextOfferId();
+        this.clientId = clientId;
         this.product = product;
         this.amount = amount;
         offerDate = new Timestamp(System.currentTimeMillis());

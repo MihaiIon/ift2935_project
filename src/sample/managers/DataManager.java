@@ -2,6 +2,7 @@ package sample.managers;
 
 import sample.models.*;
 
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 
 public class DataManager {
@@ -65,6 +66,14 @@ public class DataManager {
     }
 
     /**
+     *
+     * @param product
+     */
+    public void updateProduct(ProductModel product){
+        DatabaseManager.getInstance().openConnection().updateProduct(product).closeConnection();
+    }
+
+    /**
      * @param offer
      */
     public void addOffer(OfferModel offer) {
@@ -79,6 +88,16 @@ public class DataManager {
         transactions.add(transaction);
         DatabaseManager.getInstance().openConnection().insertTransaction(transaction).closeConnection();
     }
+
+    public void removeOffersWithProductId(int id){
+        int size = offers.size();
+        for(int i=0; i<size; i++){
+            if(offers.get(i).getProductId() == id){
+                offers.remove(i);
+            }
+        }
+    }
+
 
     // -----------------------------------------------------------------
     // Getters
@@ -102,7 +121,7 @@ public class DataManager {
      * @return
      */
     public int getNextClientId() {
-        return clients.size();
+        return clients.size()+1;
     }
 
     public ArrayList<SellerModel> getSellers() {
@@ -113,7 +132,7 @@ public class DataManager {
      * @return
      */
     public int getNextSellerId() {
-        return sellers.size();
+        return sellers.size()+1;
     }
 
     /**
@@ -168,7 +187,7 @@ public class DataManager {
      * @return
      */
     public int getNextProductId() {
-        return transactions.size();
+        return products.size()+1;
     }
 
     /**
@@ -203,7 +222,7 @@ public class DataManager {
      * @return
      */
     public int getNextOfferId() {
-        return offers.size();
+        return offers.size()+1;
     }
 
     /**
@@ -220,14 +239,37 @@ public class DataManager {
         return filteredResults;
     }
 
+    public TransactionModel getTransactionWithProductId(int id){
+        for(TransactionModel transaction : transactions){
+            if(transaction.getOffer().getProductId() == id){
+                return  transaction;
+            }
+        }
+        return null;
+    }
+     public static OfferModel getOfferWithOfferId(int id, ArrayList<OfferModel> offers){
+        for(OfferModel offer : offers){
+            if(offer.getId() == id){
+                return offer;
+            }
+        }
+        return null;
+     }
+
     /**
      * @return
      */
     public int getNextTransactionId() {
-        return transactions.size();
+        return transactions.size()+1;
     }
 
     public static ClientModel findClientById(ArrayList<ClientModel> clients, int  id){
         return clients.stream().filter(client -> id == client.getId()).findFirst().orElse(null);
+    }
+
+    public void acceptingOffer(ProductModel product, OfferModel offer, Boolean wasAutomatic){
+        updateProduct(product);
+        ClientModel client = getClientFromId(offer.getClientId());
+        addTransaction(new TransactionModel(product.getSellerId(), client, offer, wasAutomatic));
     }
 }

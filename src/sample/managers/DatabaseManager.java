@@ -119,6 +119,7 @@ public class DatabaseManager {
                 products.add(new ProductModel(rs.getInt("id"),
                         rs.getInt("seller_id"),
                         rs.getString("name"),
+                        rs.getString("state"),
                         rs.getString("description"),
                         rs.getFloat("seller_price"),
                         rs.getFloat("expert_price"),
@@ -199,7 +200,7 @@ public class DatabaseManager {
 
                     offers.add(new OfferModel(rs.getInt("id"),
                             rs.getInt("client_id"),
-                            DataManager.getProductWithId(rs.getInt("product_id"),products),
+                            DataManager.getProductWithId(rs.getInt("product_id"),p),
                             rs.getFloat("amount"),
                             rs.getTimestamp("offer_date")));
 
@@ -216,6 +217,7 @@ public class DatabaseManager {
             System.err.println( e.getClass().getName()+": "+ e.getMessage() );
             System.exit(0);
         }
+        System.out.println(offers.size());
         return offers;
     }
 
@@ -225,7 +227,6 @@ public class DatabaseManager {
         Statement stmt = null;
         ArrayList<TransactionModel> transactions = new ArrayList<>();
         int i = 0;
-
         try {
             stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("select * from transaction order by seller_id");
@@ -234,8 +235,8 @@ public class DatabaseManager {
                         rs.getInt("id"),
                         rs.getInt("seller_id"),
                         DataManager.findClientById(clients, rs.getInt("client_id")),
-                        offers.get(i),
-                        rs.getInt("is_automatic") !=0,
+                        DataManager.getOfferWithOfferId(rs.getInt("offer_id"),offers),
+                        rs.getBoolean("is_automatic"),
                         rs.getTimestamp("transaction_date")
                         ));
 
@@ -277,7 +278,7 @@ public class DatabaseManager {
             pstm.setInt(1, product.getId());
             pstm.setInt(2, product.getSellerId());
             pstm.setString(3, product.getName());
-            pstm.setString(4, "unknown");
+            pstm.setString(4, product.getState().toString());
             pstm.setString(5, product.getDescription());
             pstm.setFloat(6, product.getSellerPrice());
             pstm.setObject(7, product.getExpertPrice(), Types.FLOAT);
@@ -300,12 +301,54 @@ public class DatabaseManager {
     // TODO
     public DatabaseManager insertOffer(OfferModel offer) {
         checkConnection();
+        PreparedStatement pstm;
+        try {
+            String sql = "insert into offer values(?,?,?,?,?,?)";
+            pstm = conn.prepareStatement(sql);
+
+            pstm.setInt(1, offer.getId());
+            pstm.setInt(2,offer.getClientId());
+            pstm.setInt(3,offer.getProductId());
+            pstm.setInt(4,offer.getSellerId());
+            pstm.setFloat(5, offer.getAmount());
+            pstm.setTimestamp(6, offer.getOfferDate());
+
+            pstm.executeUpdate();
+            pstm.close();
+        }catch (Exception e){
+            System.out.println(offer.getId());
+            System.out.println(offer.getClientId());
+            System.err.println(e.getStackTrace());
+            System.err.println( e.getClass().getName()+": "+ e.getMessage());
+            System.exit(0);
+        }
         return singleton;
     }
 
     // TODO
     public DatabaseManager insertTransaction(TransactionModel transaction) {
         checkConnection();
+        PreparedStatement pstm;
+        try{
+            String sql = "insert into transaction values (?,?,?,?,?,?,?);";
+            pstm = conn.prepareStatement(sql);
+
+            pstm.setInt(1, transaction.getId());
+            pstm.setInt(2, transaction.getClient().getId());
+            pstm.setInt(3, transaction.getSellerId());
+            pstm.setInt(4, transaction.getOffer().getProductId());
+            pstm.setInt(5, transaction.getOffer().getId());
+            pstm.setBoolean(6, transaction.isWasAutomatic());
+            pstm.setTimestamp(7, transaction.getTransactionDate());
+
+            pstm.executeUpdate();
+            pstm.close();
+
+        }catch (Exception e){
+            System.err.println(e.getStackTrace());
+            System.err.println( e.getClass().getName()+": "+ e.getMessage());
+            System.exit(0);
+        }
         return singleton;
     }
 
@@ -327,6 +370,18 @@ public class DatabaseManager {
     // TODO
     public DatabaseManager updateProduct(ProductModel product) {
         checkConnection();
+        PreparedStatement pstm = null;
+        try{
+            String sql = String.format("update product set state = '%s' where id=%d",product.getState().toString(), product.getId());
+            pstm = conn.prepareStatement(sql);
+            pstm.executeUpdate();
+            pstm.close();
+
+        }catch (Exception e){
+            System.err.println(e.getStackTrace());
+            System.err.println( e.getClass().getName()+": "+ e.getMessage());
+            System.exit(0);
+        }
         return singleton;
     }
 

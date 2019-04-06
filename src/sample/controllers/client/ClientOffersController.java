@@ -5,8 +5,10 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.paint.Color;
 import sample.models.OfferModel;
 import sample.models.ProductModel;
+import sample.models.TransactionModel;
 
 import java.util.ArrayList;
 
@@ -44,7 +46,22 @@ public class ClientOffersController {
                 if(empty || offer == null || offer.getProduct().getName() == null){
                     setText(null);
                 }else{
-                    setText(offer.getProduct().getName());
+                    TransactionModel transactionModel = clientIndexController.getDataManager().getTransactionWithProductId(offer.getProductId());
+                    if(transactionModel == null){
+                        setText(offer.getProduct().getName());
+                        setDisable(false);
+                        setTextFill(Color.BLACK);
+                    }else if(offer.getProduct().isUnavailable()){
+                        if(offer.getClientId() == transactionModel.getClient().getId()){
+                            setText(String.format("%s\t\t\t\t%s",offer.getProduct().getName(), "ACCEPTED"));
+                        }else{
+
+                            setText(String.format("%s\t\t\t\t%s",offer.getProduct().getName(), "DECLINED"));
+                        }
+                            setDisable(true);
+                            setTextFill(Color.LIGHTGREY);
+                    }
+
                 }
             }
         });
@@ -53,7 +70,7 @@ public class ClientOffersController {
     public void fill(ArrayList<OfferModel> offers){
         clientOffers.getItems().clear();
         for(OfferModel o : offers){
-            clientOffers.getItems().add(o);
+                clientOffers.getItems().add(o);
         }
     }
 }
