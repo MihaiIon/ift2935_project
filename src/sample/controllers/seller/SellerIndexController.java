@@ -50,7 +50,6 @@ public class SellerIndexController {
     private void initialize() {
         addProductController.injectIndexController(this);
         productsController.injectIndexController(this);
-        selectSellerController.injectIndexController(this);
         sellerSummaryController.injectIndexController(this);
     }
 

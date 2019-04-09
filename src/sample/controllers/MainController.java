@@ -1,12 +1,19 @@
 package sample.controllers;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Screen;
+import javafx.util.Pair;
 import sample.managers.DataManager;
 import javafx.stage.Stage;
 
@@ -118,6 +125,48 @@ public class MainController {
         }else{
             return 0;
         }
+    }
+
+    @FXML
+    void createUser(){
+        Dialog<Pair<String,String>> dialog = new Dialog<>();
+        dialog.setTitle("New user");
+        dialog.setHeaderText("Creation of a new User");
+
+        ButtonType oktype = new ButtonType("Confirm", ButtonBar.ButtonData.OK_DONE);
+        ButtonType canceltype = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        dialog.getDialogPane().getButtonTypes().addAll(oktype, canceltype);
+
+        GridPane grid = new GridPane();
+
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+
+        TextField name = new TextField();
+        name.setPromptText("Name");
+
+        ObservableList<String> options =
+                FXCollections.observableArrayList(
+                        "Seller",
+                        "Client"
+                );
+        ComboBox comboBox = new ComboBox(options);
+
+        grid.add(name, 0,0);
+        grid.add(comboBox,0,1);
+
+        dialog.setResultConverter(dialogButton -> {
+            if(dialogButton == oktype){
+                return new Pair<>(name.getText(),(String)comboBox.getValue());
+            }
+            return null;
+        });
+
+        Optional<Pair<String,String>> result = dialog.showAndWait();
+
+
     }
 
 }
