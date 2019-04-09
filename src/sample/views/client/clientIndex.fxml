@@ -4,6 +4,11 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.text.Font?>
+<?import java.net.URL?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<?import javafx.scene.control.Button?>
 <GridPane hgap="20.0" vgap="20.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.client.ClientIndexController">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
@@ -25,9 +30,10 @@
         </Label>
         <fx:include fx:id="createOffer" source="./createOffer.fxml" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
         <fx:include fx:id="clientSummary" source="./clientSummary.fxml" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="2" GridPane.vgrow="NEVER" />
-        <fx:include fx:id="selectClient" source="selectClient.fxml" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
         <fx:include fx:id="clientOffers" source="clientOffers.fxml" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+        <Button fx:id="backFromClient" text="Back to Main Screen" GridPane.rowIndex="0" GridPane.columnIndex="1" onAction="#backToMain"/>
     </children>
+
     <padding>
         <Insets bottom="30.0" left="30.0" right="30.0" top="30.0"/>
     </padding>
