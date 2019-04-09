@@ -1,26 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1"
-fx:controller="sample.controllers.MainController">
-    <tabs>
-        <Tab text="Seller">
-            <content>
-                <fx:include fx:id="sellerIndex" source="seller/sellerIndex.fxml" />
-            </content>
-        </Tab>
-        <Tab text="Client">
-            <content>
-                <fx:include fx:id="clientIndex" source="client/clientIndex.fxml" />
-            </content>
-        </Tab>
-      <Tab text="Requests?">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-        </content>
-      </Tab>
-    </tabs>
-</TabPane>
+<GridPane hgap="20.0" vgap="20.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.controllers.MainController" >
+    <columnConstraints>
+        <ColumnConstraints maxWidth="500.0" minWidth="143.0" prefWidth="143.0" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" vgrow="NEVER" />
+        <RowConstraints minHeight="10.0" vgrow="NEVER" />
+        <RowConstraints minHeight="10.0" vgrow="NEVER" />
+        <RowConstraints minHeight="10.0" vgrow="NEVER" />
+        <RowConstraints minHeight="10.0" vgrow="NEVER" />
+    </rowConstraints>
+    <padding>
+        <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+    </padding>
+    <children>
+        <Button fx:id="acheteur_button" alignment="CENTER" mnemonicParsing="false" text="ACHETEUR" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+        <Button fx:id="vendeur_button" mnemonicParsing="false" text="VENDEUR" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.rowIndex="1" >
+            <image>
+                <Image url="@logo.jpg" />
+            </image>
+        </ImageView>
+        <Label alignment="CENTER" contentDisplay="CENTER" text="KITTYJIJI" GridPane.columnIndex="0" GridPane.rowIndex="0">
+            <font>
+                <Font name="System Bold" size="24.0" />
+            </font>
+        </Label>
+        <Label alignment="CENTER" contentDisplay="CENTER" text="Connection d'un:" GridPane.columnIndex="0" GridPane.rowIndex="2">
+        </Label>
+    </children>
+</GridPane>

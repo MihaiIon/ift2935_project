@@ -3,7 +3,7 @@ package sample.controllers.client;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import sample.controllers.MainController;
+import sample.controllers.ClientController;
 import sample.managers.DataManager;
 import sample.models.ClientModel;
 
@@ -24,7 +24,7 @@ public class ClientIndexController {
     @FXML
     private Label label;
 
-    private MainController mainController;
+    private ClientController clientController;
 
     private ClientModel currentClient;
 
@@ -37,15 +37,15 @@ public class ClientIndexController {
     }
 
     @FXML
-    public void injectIndexController(MainController mainController){
-        this.mainController = mainController;
+    public void injectIndexController(ClientController clientController){
+        this.clientController = clientController;
     }
 
     public void setCurrentClient(int id){
-        this.currentClient = mainController.getDataManager().getClientFromId(id);
+        this.currentClient = clientController.getDataManager().getClientFromId(id);
         label.setText(currentClient.getName());
-        clientOffersController.fill(mainController.getDataManager().getOffersWithClientId(id));
-        createOfferController.fill(mainController.getDataManager().getAvailableProducts());
+        clientOffersController.fill(clientController.getDataManager().getOffersWithClientId(id));
+        createOfferController.fill(clientController.getDataManager().getAvailableProducts());
     }
 
     public ClientModel getCurrentClient(){
@@ -61,6 +61,6 @@ public class ClientIndexController {
     }
 
     public DataManager getDataManager(){
-        return mainController.getDataManager();
+        return clientController.getDataManager();
     }
 }

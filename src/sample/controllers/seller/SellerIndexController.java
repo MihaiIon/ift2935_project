@@ -9,7 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import sample.controllers.MainController;
+import sample.controllers.SellerController;
 import sample.controllers.expert.EstimationPromptController;
 import sample.models.*;
 
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class SellerIndexController {
 
-    private MainController mainController;
+    private SellerController sellerController;
     private Float expertPrice;
 
     @FXML
@@ -66,7 +66,7 @@ public class SellerIndexController {
         }catch (Exception e){
             System.out.println("TOT");
         }
-        mainController.getDataManager().addProduct(product);
+        sellerController.getDataManager().addProduct(product);
         currentSeller.addProduct(product);
         productsController.fill(currentSeller.getProducts());
     }
@@ -78,14 +78,14 @@ public class SellerIndexController {
     }
 
     public void setSeller(int id){
-        currentSeller = mainController.getDataManager().getSellers().get(id);
+        currentSeller = sellerController.getDataManager().getSellers().get(id);
         label.setText(currentSeller.getName());
         productsController.fill(currentSeller.getProducts());
-        productsController.setOffersOfSeller(mainController.getDataManager().getOffersWithSellerId(currentSeller.getId()));
+        productsController.setOffersOfSeller(sellerController.getDataManager().getOffersWithSellerId(currentSeller.getId()));
     }
 
-    public void injectMainController(MainController mainController) {
-        this.mainController = mainController;
+    public void injectMainController(SellerController sellerController) {
+        this.sellerController = sellerController;
     }
 
     public ArrayList<OfferModel> getProductOffers(ProductModel product){
@@ -102,7 +102,7 @@ public class SellerIndexController {
 
     public void sellerAcceptOffer(ProductModel product, OfferModel offer){
 
-        mainController.getDataManager().acceptingOffer(product,offer,false);
+        sellerController.getDataManager().acceptingOffer(product,offer,false);
      /*  mainController.getDataManager().updateProduct(product);
        ClientModel client = mainController.getDataManager().getClientFromId(offer.getClientId());
        mainController.getDataManager().addTransaction(new TransactionModel(product.getSellerId(), client, offer, false));
