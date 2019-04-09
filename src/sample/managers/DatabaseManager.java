@@ -46,7 +46,7 @@ public class DatabaseManager {
     public DatabaseManager openConnection() {
         try {
             Class.forName("org.postgresql.Driver");
-            conn = DriverManager.getConnection("jdbc:postgresql://isilo.db.elephantsql.com:5432/lafmoddm", "lafmoddm", "HYPjmhFPNHvy85afZLsfl4SSLBwwqLx3");
+            conn = DriverManager.getConnection("jdbc:postgresql://postgres.iro.umontreal.ca:5432/davidbam", "davidbam_app", "unelicornequicourt");
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(0);
@@ -90,7 +90,7 @@ public class DatabaseManager {
 
         try {
             stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM client");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM davidbam.client");
             while(rs.next()){
                 clients.add(new ClientModel(Integer.valueOf(rs.getString("id")),rs.getString("name")));
             }
@@ -114,7 +114,7 @@ public class DatabaseManager {
 
         try {
             stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM product order by seller_id;");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM davidbam.product order by seller_id;");
             while(rs.next()){
                 products.add(new ProductModel(rs.getInt("id"),
                         rs.getInt("seller_id"),
@@ -145,7 +145,7 @@ public class DatabaseManager {
 
         try {
             stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from seller order by id;");
+            ResultSet rs = stmt.executeQuery("select * from davidbam.seller order by id;");
             int id = 0;
             int i = 0;
             while(rs.next()){
@@ -190,7 +190,7 @@ public class DatabaseManager {
 
         try {
             stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("select offer.id, offer.client_id, offer.amount, offer.offer_date, product.id as product_id, product.seller_id from offer join product on offer.seller_id = product.seller_id order by product_id;");
+            ResultSet rs = stmt.executeQuery("select * from davidbam.offer order by seller_id;");
             while(rs.next()){
                 if(rs.getInt("seller_id") != prevId){
                     p = DataManager.getProductsWithSellerId(rs.getInt("seller_id"), products);
@@ -229,7 +229,7 @@ public class DatabaseManager {
         int i = 0;
         try {
             stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from transaction order by seller_id");
+            ResultSet rs = stmt.executeQuery("select * from davidbam.transaction order by seller_id");
             while(rs.next()){
                 transactions.add(new TransactionModel(
                         rs.getInt("id"),
@@ -272,7 +272,7 @@ public class DatabaseManager {
         checkConnection();
         PreparedStatement pstm = null;
         try{
-            String sql = "insert into product values (?,?,?,?,?,?,?,?,?);";
+            String sql = "insert into davidbam.product values (?,?,?,?,?,?,?,?,?);";
             pstm = conn.prepareStatement(sql);
 
             pstm.setInt(1, product.getId());
@@ -303,7 +303,7 @@ public class DatabaseManager {
         checkConnection();
         PreparedStatement pstm;
         try {
-            String sql = "insert into offer values(?,?,?,?,?,?)";
+            String sql = "insert into davidbam.offer values(?,?,?,?,?,?)";
             pstm = conn.prepareStatement(sql);
 
             pstm.setInt(1, offer.getId());
@@ -330,7 +330,7 @@ public class DatabaseManager {
         checkConnection();
         PreparedStatement pstm;
         try{
-            String sql = "insert into transaction values (?,?,?,?,?,?,?);";
+            String sql = "insert into davidbam.transaction values (?,?,?,?,?,?,?);";
             pstm = conn.prepareStatement(sql);
 
             pstm.setInt(1, transaction.getId());
@@ -372,7 +372,7 @@ public class DatabaseManager {
         checkConnection();
         PreparedStatement pstm = null;
         try{
-            String sql = String.format("update product set state = '%s' where id=%d",product.getState().toString(), product.getId());
+            String sql = String.format("update davidbam.product set state = '%s' where id=%d",product.getState().toString(), product.getId());
             pstm = conn.prepareStatement(sql);
             pstm.executeUpdate();
             pstm.close();

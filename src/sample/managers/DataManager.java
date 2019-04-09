@@ -196,6 +196,7 @@ public class DataManager {
      */
     public ArrayList<OfferModel> getOffersWithSellerId(int id) {
         ArrayList<OfferModel> filteredResults = new ArrayList<>();
+
         for (OfferModel offer : offers) {
             if (offer.getSellerId() == id) {
                 filteredResults.add(offer);
@@ -211,6 +212,7 @@ public class DataManager {
     public ArrayList<OfferModel> getOffersWithClientId(int id) {
         ArrayList<OfferModel> filteredResults = new ArrayList<>();
         for (OfferModel offer : offers) {
+
             if (offer.getClientId() == id) {
                 filteredResults.add(offer);
             }

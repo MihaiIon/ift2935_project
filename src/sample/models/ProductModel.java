@@ -107,6 +107,7 @@ public class ProductModel {
     public ProductModel publish(Float expertPrice) {
         this.expertPrice = expertPrice;
         state = ProductState.AVAILABLE;
+        this.publishDate = new Timestamp(System.currentTimeMillis());
         return this;
     }
 

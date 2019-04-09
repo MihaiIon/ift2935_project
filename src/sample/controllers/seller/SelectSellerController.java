@@ -22,7 +22,7 @@ public class SelectSellerController {
 
     @FXML
     void sellerSelect(ActionEvent e){
-        sellerIndexController.setSeller(Integer.valueOf(String.valueOf(sellerIdInput.getCharacters())));
+        sellerIndexController.setSeller(Integer.valueOf(sellerIdInput.getText()));
         sellerIndexController.activateAddProduct();
     }
 }

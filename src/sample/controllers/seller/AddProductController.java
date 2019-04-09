@@ -10,6 +10,9 @@ import sample.models.ProductModel;
 
 import java.io.IOException;
 
+/**
+ *  Controller for the addProduct.fxml view
+ */
 public class AddProductController {
 
     // Components
@@ -39,10 +42,13 @@ public class AddProductController {
     // Methods
     // =======================================================
 
+    /**
+     * Sends a new product to the sellerIndexController waiting to be estimated
+     */
     @FXML
     public void onSubmit() {
         if(String.valueOf(title.getCharacters()).compareTo("") !=0 && String.valueOf(price.getCharacters()).compareTo("") !=0){
-            float p = Float.valueOf(String.valueOf(price.getCharacters()));
+            float p = Float.valueOf(price.getText());
             if(p <= 0){
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
@@ -57,7 +63,7 @@ public class AddProductController {
                         title.getText(),
                         (description.getText().compareTo("")!=0)?description.getText():"non décrit",
                         p);
-                System.out.println(title.getText());
+
                 sellerIndexController.addProductToSeller(newProduct);
             }
         }

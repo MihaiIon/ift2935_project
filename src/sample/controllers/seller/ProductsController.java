@@ -13,6 +13,9 @@ import sample.models.ProductModel;
 import java.util.ArrayList;
 
 
+/**
+ *
+ */
 public class ProductsController {
 
     @FXML
@@ -21,6 +24,8 @@ public class ProductsController {
     private ListView myProducts;
     @FXML
     private ListView prices;
+    @FXML
+    private Button reconsider;
 
     private SellerIndexController sellerIndexController;
 
@@ -30,13 +35,14 @@ public class ProductsController {
 
     private ProductModel selectedProduct;
 
-    @FXML
-
 
     public void injectIndexController(SellerIndexController sellerIndexController) {
         this.sellerIndexController = sellerIndexController;
     }
 
+    /**
+     * @param prods
+     */
     public void fill(ArrayList<ProductModel> prods) {
         prices.getItems().clear();
         myProducts.getItems().clear();
@@ -50,21 +56,42 @@ public class ProductsController {
     @FXML
     void initialize() {
         myProducts.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ProductModel>() {
+            /**
+             * Controls what appears on the offers ListView
+             * @param observable
+             * @param oldValue
+             * @param newValue
+             */
             @Override
             public void changed(ObservableValue observable, ProductModel oldValue, ProductModel newValue) {
                 sellerIndexController.getSummaryList().getItems().clear();
                 prices.getItems().clear();
+                selectedProduct = newValue;
                 if (newValue != null) {
-                    selectedProduct = newValue;
-                    sellerIndexController.getSellerSummaryController().addProduct(newValue);
-                    prices.setDisable(false);
-                    showOffers(newValue);
+                    //Possibility for the seller to reconsider the estimation
+                    if(newValue.isSubmitted()){
+                        prices.setDisable(true);
+                        button.setDisable(true);
+                        reconsider.setVisible(true);
 
+                    }else {
+
+                        prices.setDisable(false);
+                        reconsider.setVisible(false);
+                        showOffers(selectedProduct);
+                    }
+
+                    sellerIndexController.getSellerSummaryController().addProduct(newValue);
                 }
 
             }
         });
         myProducts.setCellFactory(param -> new ListCell<ProductModel>() {
+            /**
+             *
+             * @param product
+             * @param empty
+             */
             @Override
             protected void updateItem(ProductModel product, boolean empty) {
                 super.updateItem(product, empty);
@@ -74,6 +101,8 @@ public class ProductsController {
 
                     if(product.isAvailable()){
                         setText(product.getName());
+                        setDisable(false);
+                        setTextFill(Color.BLACK);
                     }else if(product.isUnavailable()){
                         setText(String.format("%s\t\t\t\t%s", product.getName(), "SOLD!"));
                         setTextFill(Color.LIGHTGREY);
@@ -88,6 +117,10 @@ public class ProductsController {
         });
 
         prices.setCellFactory(param -> new ListCell<OfferModel>() {
+            /**
+             * @param offer
+             * @param empty
+             */
             @Override
             protected void updateItem(OfferModel offer, boolean empty) {
                 super.updateItem(offer, empty);
@@ -100,8 +133,14 @@ public class ProductsController {
         });
 
         prices.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<OfferModel>() {
+            /**
+             * @param observable
+             * @param oldValue
+             * @param newValue
+             */
             @Override
             public void changed(ObservableValue observable, OfferModel oldValue, OfferModel newValue) {
+
                 selectedOffer = newValue;
                 button.setDisable(false);
             }
@@ -114,7 +153,8 @@ public class ProductsController {
 
     private void showOffers(ProductModel product) {
         for (OfferModel om : offersOfSeller) {
-            if (om.getProductId() == product.getId()) {
+
+            if (om.getProduct().getId() == product.getId()) {
                 prices.getItems().add(om);
             }
         }
@@ -124,6 +164,15 @@ public class ProductsController {
     void acceptOffer(){
         selectedProduct.sell();
         sellerIndexController.sellerAcceptOffer(selectedProduct,selectedOffer);
+    }
+
+    @FXML
+    void reconsiderEstimation(){
+        try {
+            sellerIndexController.addProductToSeller(selectedProduct);
+        }catch (Exception e){
+
+        }
     }
 
 }

@@ -5,8 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import sample.controllers.MainController;
@@ -14,6 +13,7 @@ import sample.controllers.expert.EstimationPromptController;
 import sample.models.*;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class SellerIndexController {
 
@@ -43,6 +43,8 @@ public class SellerIndexController {
     }
 
 
+
+
     @FXML
     private void initialize() {
         addProductController.injectIndexController(this);
@@ -53,16 +55,15 @@ public class SellerIndexController {
 
     public void addProductToSeller(ProductModel product){
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sample/views/expert/estimationPrompt.fxml"));
-            Parent parent = fxmlLoader.load();
-            EstimationPromptController epc = fxmlLoader.<EstimationPromptController>getController();
-            epc.injectIndexController(this, product);
-            Scene scene = new Scene(parent, 500, 300);
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setScene(scene);
-            stage.setTitle("Product price estimation");
-            stage.showAndWait();
+            expertPrompt(product);
+            boolean accepted = acceptExpertPrice();
+            if(!accepted){
+                product.submit();
+            }else{
+                product.publish(expertPrice);
+            }
+
+
         }catch (Exception e){
             System.out.println("TOT");
         }
@@ -96,19 +97,49 @@ public class SellerIndexController {
         return this.currentSeller;
     }
 
-    public Float setExpertPrice(Float expertPrice){
-        return this.expertPrice = expertPrice;
+    public void setExpertPrice(Float expertPrice){
+        this.expertPrice = expertPrice;
+    }
+
+    public Float getExpertPrice(){
+        return this.expertPrice;
     }
 
     public void sellerAcceptOffer(ProductModel product, OfferModel offer){
 
         mainController.getDataManager().acceptingOffer(product,offer,false);
-     /*  mainController.getDataManager().updateProduct(product);
-       ClientModel client = mainController.getDataManager().getClientFromId(offer.getClientId());
-       mainController.getDataManager().addTransaction(new TransactionModel(product.getSellerId(), client, offer, false));
-       //mainController.getDataManager().removeOffersWithProductId(product.getId());
-*/
+    }
 
+    public void expertPrompt(ProductModel product) throws Exception{
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sample/views/expert/estimationPrompt.fxml"));
+        Parent parent = fxmlLoader.load();
+        EstimationPromptController epc = fxmlLoader.<EstimationPromptController>getController();
+        epc.injectIndexController(this, product);
+        Scene scene = new Scene(parent, 500, 300);
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setScene(scene);
+        stage.setTitle("Product price estimation");
+        stage.showAndWait();
+    }
+
+    private boolean acceptExpertPrice(){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation of the expert price");
+        alert.setHeaderText("Are you OK with the following expert price?");
+        alert.setContentText(String.format("%.2f $", expertPrice));
+
+        ButtonType buttonTypeAccept = new ButtonType("Accept", ButtonBar.ButtonData.YES);
+        ButtonType buttonTypeDecline = new ButtonType("Decline", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        alert.getButtonTypes().setAll(buttonTypeAccept, buttonTypeDecline);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == buttonTypeAccept) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

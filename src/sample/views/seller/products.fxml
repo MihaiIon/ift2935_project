@@ -27,5 +27,9 @@
         <Button fx:id="button" styleClass="o-btn" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
                 text="Accept Offer"
                 GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" disable="true" onAction="#acceptOffer"/>
+        <Button fx:id="reconsider" styleClass="o-btn" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
+                text="Ask for new estimation"
+                visible="false"
+                GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" disable="false" onAction="#reconsiderEstimation"/>
     </children>
 </GridPane>

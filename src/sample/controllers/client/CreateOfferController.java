@@ -3,14 +3,14 @@ package sample.controllers.client;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import sample.models.OfferModel;
 import sample.models.ProductModel;
-
-import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Controller for the createOffer.fxml view
+ */
 public class CreateOfferController {
 
     @FXML
@@ -33,6 +33,11 @@ public class CreateOfferController {
     @FXML
     void initialize() {
         availableProducts.setCellFactory(param -> new ListCell<ProductModel>() {
+            /**
+             * Formation of a ProductModel in the ListView
+             * @param product
+             * @param empty
+             */
             @Override
             protected void updateItem(ProductModel product, boolean empty) {
                 super.updateItem(product, empty);
@@ -45,6 +50,12 @@ public class CreateOfferController {
         });
 
         availableProducts.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ProductModel>() {
+            /**
+             * Handle ProductModel in the ListView
+             * @param observable
+             * @param oldValue
+             * @param newValue
+             */
             @Override
             public void changed(ObservableValue observable, ProductModel oldValue, ProductModel newValue) {
                 clientIndexController.getSummary().getItems().clear();
@@ -60,12 +71,18 @@ public class CreateOfferController {
 
     }
 
+    /**
+     * @param products
+     */
     public void fill(ArrayList<ProductModel> products) {
         for (ProductModel p : products) {
             availableProducts.getItems().add(p);
         }
     }
 
+    /**
+     * Sends new OfferModel to the Data Manager
+     */
     @FXML
     void submitOffer() {
         float offerValue = Float.valueOf(offer.getText());

@@ -6,16 +6,25 @@ import javafx.scene.control.ListView;
 import sample.models.OfferModel;
 import sample.models.ProductModel;
 
+/**
+ *  Controller For the summary in the Client View clientSummary.fxml
+ */
 public class ClientSummaryController {
 
     @FXML
     private ListView clientSummary;
 
 
+    /**
+     * @return the client Summary ListView
+     */
     public ListView getClientSummary(){
         return this.clientSummary;
     }
 
+    /**
+     * @param product
+     */
     public void addProduct(ProductModel product){
         clientSummary.setItems(FXCollections.observableArrayList(
                 String.format("Name: %s", product.getName()),
@@ -27,6 +36,9 @@ public class ClientSummaryController {
 
     }
 
+    /**
+     * @param offer
+     */
     public void addOffer(OfferModel offer){
         ProductModel product = offer.getProduct();
         clientSummary.setItems(FXCollections.observableArrayList(

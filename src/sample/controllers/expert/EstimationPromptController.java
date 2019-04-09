@@ -5,14 +5,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import sample.controllers.seller.SellerIndexController;
 import sample.models.ProductModel;
 
+/**
+ * Controller for the estimationPrompt.fxml view
+ */
 public class EstimationPromptController {
 
     @FXML
@@ -36,6 +36,10 @@ public class EstimationPromptController {
 
     private SellerIndexController sellerIndexController;
 
+    /**
+     * @param sellerIndexController
+     * @param product
+     */
     public void injectIndexController(SellerIndexController sellerIndexController, ProductModel product){
         this.sellerIndexController = sellerIndexController;
         productModel = product;
@@ -45,22 +49,35 @@ public class EstimationPromptController {
                 String.format("Seller Price: %.2f", product.getSellerPrice())));
     }
 
-    @FXML
-    void initialize(){
-
-    }
-
+    /**
+     * Simulates the price estimation of an expert
+     * @param event
+     */
     @FXML
     void outSourcePrice(ActionEvent event){
         Float sellerP = productModel.getSellerPrice();
-        double estimate = (0.95*sellerP)*(Math.random()*(0.1 * sellerP));
-        estimation.setText(String.valueOf(Math.round(estimate * 100.0) / 100.0));
+        // sellerPrice +- 5%
+        float estimate = (float)Math.round((0.95*sellerP)*(Math.random()*(0.1 * sellerP))*100)/100;
+        estimation.setText(String.valueOf(estimate));
     }
 
+    /**
+     * Sends Expert Price to the Seller Index Controller
+     * @param event
+     */
     @FXML
     void setExpertPrice(ActionEvent event){
+        if(Float.valueOf((estimation.getText())) == null || Float.valueOf((estimation.getText())) == 0.0f){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Carefull !");
+            alert.setContentText("Estimation should be a positive non-zero number");
+            alert.showAndWait();
+            estimation.setText("");
+        }else{
         sellerIndexController.setExpertPrice(Float.valueOf(estimation.getText()));
         closeStage(event);
+    }
     }
 
     private void closeStage(ActionEvent event) {
