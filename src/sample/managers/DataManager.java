@@ -26,6 +26,7 @@ public class DataManager {
     private ArrayList<ProductModel> products;
     private ArrayList<OfferModel> offers;
     private ArrayList<TransactionModel> transactions;
+    private ArrayList<ExpertModel> experts;
 
     private DataManager() {
         DatabaseManager dbm = DatabaseManager.getInstance();
@@ -35,6 +36,7 @@ public class DataManager {
         sellers = dbm.selectSellers(products);
         offers = dbm.selectOffers(products);
         transactions = dbm.selectTransactions(clients, offers);
+        experts = dbm.selectExperts();
         dbm.closeConnection();
     }
 
@@ -117,6 +119,10 @@ public class DataManager {
         return null;
     }
 
+    public ArrayList<ExpertModel> getExperts(){
+        return  experts;
+    }
+
     /**
      * @return
      */
@@ -126,6 +132,15 @@ public class DataManager {
 
     public ArrayList<SellerModel> getSellers() {
         return sellers;
+    }
+
+    public SellerModel getSellerById(int id){
+        for(SellerModel seller : sellers){
+            if(seller.getId() == id){
+                return seller;
+            }
+        }
+        return null;
     }
 
     /**
@@ -157,6 +172,10 @@ public class DataManager {
             }
         }
         return filteredResults;
+    }
+
+    public ArrayList<ProductModel> getProducts() {
+        return products;
     }
 
     public static ProductModel getProductWithId(int id, ArrayList<ProductModel> products){
@@ -265,6 +284,8 @@ public class DataManager {
         return transactions.size()+1;
     }
 
+    public int getNextExpertId(){ return experts.size()+1;}
+
     public static ClientModel findClientById(ArrayList<ClientModel> clients, int  id){
         return clients.stream().filter(client -> id == client.getId()).findFirst().orElse(null);
     }
@@ -273,5 +294,13 @@ public class DataManager {
         updateProduct(product);
         ClientModel client = getClientFromId(offer.getClientId());
         addTransaction(new TransactionModel(product.getSellerId(), client, offer, wasAutomatic));
+    }
+
+    public ArrayList<String> request(String rq){
+        DatabaseManager dbm = DatabaseManager.getInstance();
+        dbm.openConnection();
+        ArrayList<String> ret = dbm.request(rq);
+        dbm.closeConnection();
+        return ret;
     }
 }

@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import sample.controllers.seller.SellerIndexController;
+import sample.models.ExpertModel;
 import sample.models.ProductModel;
 
 /**
@@ -32,6 +33,8 @@ public class EstimationPromptController {
 
     private ProductModel productModel;
 
+    private ExpertModel expertModel;
+
 
 
     private SellerIndexController sellerIndexController;
@@ -47,6 +50,8 @@ public class EstimationPromptController {
         itemInfo.setItems(FXCollections.observableArrayList(
                 String.format("Description: %s", product.getDescription()),
                 String.format("Seller Price: %.2f", product.getSellerPrice())));
+
+        expertModel = sellerIndexController.getRandomExpert();
     }
 
     /**
@@ -76,6 +81,7 @@ public class EstimationPromptController {
             estimation.setText("");
         }else{
         sellerIndexController.setExpertPrice(Float.valueOf(estimation.getText()));
+        productModel.setExpertId(expertModel.getId());
         closeStage(event);
     }
     }

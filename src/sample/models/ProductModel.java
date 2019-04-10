@@ -19,6 +19,7 @@ public class ProductModel {
     private Timestamp creationDate;
     private Timestamp publishDate;
     private ProductState state;
+    private int expertId;
 
     /**
      * Constructor | Use when creating a new ProductModel.
@@ -28,16 +29,17 @@ public class ProductModel {
      * @param description
      * @param price
      */
-    public ProductModel(int sellerId, String name, String description, float price) {
+    public ProductModel(int sellerId, String name, String description, float price, int expertId) {
         id = DataManager.getInstance().getNextProductId();
         this.sellerId = sellerId;
         this.name = name;
         this.description = description;
-        sellerPrice = price;
+        sellerPrice = (float)Math.round(price*100)/100;
         expertPrice = null;
         creationDate = new Timestamp(System.currentTimeMillis());
         publishDate = null;
         state = ProductState.DRAFT;
+        this.expertId = expertId;
     }
 
     /**
@@ -52,7 +54,7 @@ public class ProductModel {
      * @param creationDate
      * @param publishDate
      */
-    public ProductModel(int id, int sellerId, String name, String state, String description, float sellerPrice, Float expertPrice, Timestamp creationDate, Timestamp publishDate) {
+    public ProductModel(int id, int sellerId, String name, String state, String description, float sellerPrice, Float expertPrice, Timestamp creationDate, Timestamp publishDate, int expertId) {
         this.id = id;
         this.sellerId = sellerId;
         this.name = name;
@@ -61,6 +63,7 @@ public class ProductModel {
         this.expertPrice = expertPrice;
         this.creationDate = creationDate;
         this.publishDate = publishDate;
+        this.expertId = expertId;
         switch (state){
             case "AVAILABLE":
                 publish(expertPrice);
@@ -178,6 +181,13 @@ public class ProductModel {
         return this.state;
     }
 
+    public void setExpertId(int expertId) {
+        this.expertId = expertId;
+    }
+
+    public int getExpertId(){
+        return expertId;
+    }
 }
 
 

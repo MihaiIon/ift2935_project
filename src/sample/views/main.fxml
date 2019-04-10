@@ -28,7 +28,7 @@
     <children>
         <Button fx:id="acheteur_button" alignment="CENTER" mnemonicParsing="false" onAction="#client_windows" text="ACHETEUR" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
         <Button fx:id="vendeur_button" mnemonicParsing="false" onAction="#seller_windows" text="VENDEUR" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
-        <Button fx:id="create_user" text="Create User" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
+        <Button fx:id="create_user" text="Create User" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="5" onAction="#createUser" />
         <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="1">
             <image>
                 <Image url="@logo.jpg" />

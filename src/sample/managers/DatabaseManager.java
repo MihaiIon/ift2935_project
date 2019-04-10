@@ -124,7 +124,8 @@ public class DatabaseManager {
                         rs.getFloat("seller_price"),
                         rs.getFloat("expert_price"),
                         rs.getTimestamp("creation_date"),
-                        rs.getTimestamp("publich_date")));
+                        rs.getTimestamp("publich_date"),
+                        rs.getInt("expert_id")));
             }
             rs.close();
             stmt.close();
@@ -217,7 +218,6 @@ public class DatabaseManager {
             System.err.println( e.getClass().getName()+": "+ e.getMessage() );
             System.exit(0);
         }
-        System.out.println(offers.size());
         return offers;
     }
 
@@ -229,7 +229,7 @@ public class DatabaseManager {
         int i = 0;
         try {
             stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("select * from davidbam.transaction order by seller_id");
+            ResultSet rs = stmt.executeQuery("select * from davidbam.transaction order by seller_id;");
             while(rs.next()){
                 transactions.add(new TransactionModel(
                         rs.getInt("id"),
@@ -252,18 +252,77 @@ public class DatabaseManager {
         return transactions;
     }
 
+    public ArrayList<ExpertModel> selectExperts(){
+        checkConnection();
+        Statement stm = null;
+        ArrayList<ExpertModel> experts = new ArrayList<>();
+        try{
+            stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery("select * from davidbam.expert;");
+            while(rs.next()){
+                experts.add(new ExpertModel(rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getInt("reputation")));
+            }
+            rs.close();
+            stm.close();
+        }catch (Exception e){
+            System.err.println(e.getStackTrace());
+            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+            System.exit(0);
+        }
+
+        return experts;
+    }
+
     // -----------------------------------------------------------------
     // Insert Queries
 
     // TODO
     public DatabaseManager insertClient(ClientModel client) {
         checkConnection();
+        PreparedStatement pstm = null;
+        try{
+            String sql = "insert into davidbam.client values (?,?);";
+            pstm = conn.prepareStatement(sql);
+
+            pstm.setInt(1, client.getId());
+            pstm.setString(2, client.getName());
+
+            pstm.executeUpdate();
+
+            pstm.close();
+
+
+        }catch (Exception e){
+            System.err.println(e.getStackTrace());
+            System.err.println( e.getClass().getName()+": "+ e.getMessage());
+            System.exit(0);
+        }
         return singleton;
     }
 
     // TODO
     public DatabaseManager insertSeller(SellerModel seller) {
         checkConnection();
+        PreparedStatement pstm = null;
+        try{
+            String sql = "insert into davidbam.seller values (?,?);";
+            pstm = conn.prepareStatement(sql);
+
+            pstm.setInt(1, seller.getId());
+            pstm.setString(2, seller.getName());
+
+            pstm.executeUpdate();
+
+            pstm.close();
+
+
+        }catch (Exception e){
+            System.err.println(e.getStackTrace());
+            System.err.println( e.getClass().getName()+": "+ e.getMessage());
+            System.exit(0);
+        }
         return singleton;
     }
 
@@ -272,7 +331,7 @@ public class DatabaseManager {
         checkConnection();
         PreparedStatement pstm = null;
         try{
-            String sql = "insert into davidbam.product values (?,?,?,?,?,?,?,?,?);";
+            String sql = "insert into davidbam.product values (?,?,?,?,?,?,?,?,?,?);";
             pstm = conn.prepareStatement(sql);
 
             pstm.setInt(1, product.getId());
@@ -284,6 +343,7 @@ public class DatabaseManager {
             pstm.setObject(7, product.getExpertPrice(), Types.FLOAT);
             pstm.setTimestamp(8, product.getCreationDate());
             pstm.setTimestamp(9, product.getPublishDate());
+            pstm.setInt(10, product.getExpertId());
 
             pstm.executeUpdate();
 
@@ -397,6 +457,42 @@ public class DatabaseManager {
         return singleton;
     }
 
+    public ArrayList<String> request(String req){
+        checkConnection();
+        ArrayList<String> ret = new ArrayList<>();
+        ArrayList<Integer> sizes = new ArrayList<>();
+        Statement stm = null;
+        String columns = "";
+        try {
+            String sql = req;
+            stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            ResultSetMetaData rsmd = rs.getMetaData();
+
+            int columnNumber = rsmd.getColumnCount();
+            for(int i =1; i<=columnNumber;i++){
+                columns+=rsmd.getColumnName(i)+"\t";
+            }
+            columns = columns.substring(0,columns.length()-1);
+            ret.add(columns);
+            while(rs.next()){
+
+                String r = "";
+                for(int i =1; i<=columnNumber;i++){
+
+                    r += rs.getString(i) + "\t";
+                }
+                r = r.substring(0,r.length()-1);
+                ret.add(r);
+            }
+        }catch (Exception e){
+            System.err.println(e.getStackTrace());
+            System.err.println( e.getClass().getName()+": "+ e.getMessage());
+            System.exit(0);
+        }
+        return ret;
+    }
+
 
     // -----------------------------------------------------------------
     // Select Queries
@@ -409,4 +505,26 @@ public class DatabaseManager {
 
     // -----------------------------------------------------------------
     // Delete Queries
+
+    final private static void printResultSet(ResultSet rs) throws SQLException {
+
+        // Prepare metadata object and get the number of columns.
+        ResultSetMetaData rsmd = rs.getMetaData();
+        int columnsNumber = rsmd.getColumnCount();
+
+        // Print column names (a header).
+        for (int i = 1; i <= columnsNumber; i++) {
+            if (i > 1) System.out.print(" | ");
+            System.out.print(rsmd.getColumnName(i));
+        }
+        System.out.println("");
+
+        while (rs.next()) {
+            for (int i = 1; i <= columnsNumber; i++) {
+                if (i > 1) System.out.print(" | ");
+                System.out.print(rs.getString(i));
+            }
+            System.out.println("");
+        }
+    }
 }

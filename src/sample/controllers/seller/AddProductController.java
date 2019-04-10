@@ -62,7 +62,8 @@ public class AddProductController {
                         sellerIndexController.getCurrentSeller().getId(),
                         title.getText(),
                         (description.getText().compareTo("")!=0)?description.getText():"non décrit",
-                        p);
+                        p,
+                        0);
 
                 sellerIndexController.addProductToSeller(newProduct);
             }

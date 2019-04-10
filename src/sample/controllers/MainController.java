@@ -1,7 +1,5 @@
 package sample.controllers;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -16,6 +14,8 @@ import javafx.stage.Screen;
 import javafx.util.Pair;
 import sample.managers.DataManager;
 import javafx.stage.Stage;
+import sample.models.ClientModel;
+import sample.models.SellerModel;
 
 import java.util.Optional;
 
@@ -102,6 +102,7 @@ public class MainController {
                 sellerController = fxmlLoader_seller.<SellerController>getController();
                 sellerController.setDataManager(dataManager);
                 sellerController.setSellerId(id);
+
                 primaryStage.setScene(new Scene(root_seller, width, height));
                 centerStage(width,height);
             }
@@ -157,6 +158,8 @@ public class MainController {
         grid.add(name, 0,0);
         grid.add(comboBox,0,1);
 
+        dialog.getDialogPane().setContent(grid);
+
         dialog.setResultConverter(dialogButton -> {
             if(dialogButton == oktype){
                 return new Pair<>(name.getText(),(String)comboBox.getValue());
@@ -165,7 +168,23 @@ public class MainController {
         });
 
         Optional<Pair<String,String>> result = dialog.showAndWait();
-
+        if(result.get().getKey().compareTo("") !=0){
+            if(result.get().getValue().compareTo("") !=0){
+                if(result.get().getValue().compareTo("Seller") == 0){
+                    dataManager.addSeller(new SellerModel(result.get().getKey()));
+                    Alert d = new Alert(Alert.AlertType.CONFIRMATION);
+                    d.setTitle("Seller Created");
+                    d.setHeaderText(String.format("Your id is: %d",dataManager.getSellers().size()));
+                    d.showAndWait();
+                }else {
+                    dataManager.addClient(new ClientModel(result.get().getKey()));
+                    Alert d = new Alert(Alert.AlertType.CONFIRMATION);
+                    d.setTitle("Client Created");
+                    d.setHeaderText(String.format("Your id is: %d",dataManager.getClients().size()));
+                    d.showAndWait();
+                }
+            }
+        }
 
     }
 

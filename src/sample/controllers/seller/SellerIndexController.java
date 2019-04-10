@@ -11,10 +11,12 @@ import javafx.stage.Stage;
 import sample.controllers.MainController;
 import sample.controllers.SellerController;
 import sample.controllers.expert.EstimationPromptController;
+import sample.managers.DataManager;
 import sample.models.*;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Random;
 
 public class SellerIndexController {
 
@@ -43,7 +45,10 @@ public class SellerIndexController {
         return this.sellerSummaryController;
     }
 
-
+    public ExpertModel getRandomExpert(){
+        Random rand = new Random();
+         return sellerController.getDataManager().getExperts().get(rand.nextInt(sellerController.getDataManager().getExperts().size()));
+    }
 
 
     @FXML
@@ -67,9 +72,13 @@ public class SellerIndexController {
         }catch (Exception e){
             System.out.println("TOT");
         }
-        sellerController.getDataManager().addProduct(product);
-        currentSeller.addProduct(product);
-        productsController.fill(currentSeller.getProducts());
+        if(DataManager.getProductWithId(product.getId(),sellerController.getDataManager().getProducts()) == null) {
+            sellerController.getDataManager().addProduct(product);
+            currentSeller.addProduct(product);
+            productsController.fill(currentSeller.getProducts());
+        }else{
+            sellerController.getDataManager().updateProduct(product);
+        }
     }
 
 
@@ -79,7 +88,7 @@ public class SellerIndexController {
     }
 
     public void setSeller(int id){
-        currentSeller = sellerController.getDataManager().getSellers().get(id);
+        currentSeller = sellerController.getDataManager().getSellerById(id);
         label.setText(currentSeller.getName());
         productsController.fill(currentSeller.getProducts());
         productsController.setOffersOfSeller(sellerController.getDataManager().getOffersWithSellerId(currentSeller.getId()));

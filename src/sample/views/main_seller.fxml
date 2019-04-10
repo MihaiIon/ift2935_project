@@ -12,5 +12,10 @@
                 <fx:include fx:id="sellerIndex" source="seller/sellerIndex.fxml" />
             </content>
         </Tab>
+        <Tab text="Requests">
+            <content>
+                <fx:include fx:id="requests" source="seller/requests.fxml"/>
+            </content>
+        </Tab>
     </tabs>
 </TabPane>

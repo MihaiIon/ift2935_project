@@ -2,6 +2,7 @@ package sample.controllers;
 
 import javafx.fxml.FXML;
 import sample.controllers.client.ClientIndexController;
+import sample.controllers.client.RequestsController;
 import sample.managers.DataManager;
 
 public class ClientController {
@@ -10,9 +11,11 @@ public class ClientController {
     private int clientId;
 
     @FXML private ClientIndexController clientIndexController;
+    @FXML private RequestsController requestsController;
 
     @FXML private void initialize(){
         clientIndexController.injectIndexController(this);
+        requestsController.injectIndexController(this);
 
     }
 
