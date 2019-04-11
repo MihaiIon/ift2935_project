@@ -29,6 +29,9 @@ public class ClientOffersController {
         this.clientIndexController = clientIndexController;
     }
 
+    /**
+     *
+     */
     @FXML
     void initialize(){
         clientOffers.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {

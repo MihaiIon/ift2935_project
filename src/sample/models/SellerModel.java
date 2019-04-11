@@ -1,7 +1,6 @@
 package sample.models;
 
 import sample.managers.DataManager;
-
 import java.util.ArrayList;
 
 public class SellerModel {
@@ -47,15 +46,7 @@ public class SellerModel {
     // -----------------------------------------------------------------
     // Getters
 
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public ArrayList<ProductModel> getProducts() {
-        return products;
-    }
+    public int getId() { return id; }
+    public String getName() { return name; }
+    public ArrayList<ProductModel> getProducts() { return products; }
 }

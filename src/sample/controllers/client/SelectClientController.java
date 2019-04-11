@@ -9,7 +9,6 @@ public class SelectClientController {
 
     @FXML
     private TextField clientIdInput;
-
     @FXML
     private Button enterClientId;
 

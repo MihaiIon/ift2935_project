@@ -15,15 +15,12 @@ public class CreateOfferController {
 
     @FXML
     private ListView availableProducts;
-
     @FXML
     private TextField offer;
-
     @FXML
     private Button submitOffer;
 
     private ProductModel selectedProduct;
-
     private ClientIndexController clientIndexController;
 
     public void injectIndexController(ClientIndexController clientIndexController) {
@@ -43,32 +40,33 @@ public class CreateOfferController {
                 super.updateItem(product, empty);
                 if (empty || product == null || product.getName() == null) {
                     setText(null);
-                } else {
-                    setText(product.getName());
-                }
+                } else setText(product.getName());
             }
         });
 
-        availableProducts.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ProductModel>() {
-            /**
-             * Handle ProductModel in the ListView
-             * @param observable
-             * @param oldValue
-             * @param newValue
-             */
-            @Override
-            public void changed(ObservableValue observable, ProductModel oldValue, ProductModel newValue) {
-                clientIndexController.getSummary().getItems().clear();
-                offer.setDisable(false);
-                offer.setText("");
-                submitOffer.setDisable(false);
-                selectedProduct = newValue;
-                if (newValue != null) {
-                    clientIndexController.getClientSummaryController().addProduct(newValue);
-                }
-            }
-        });
-
+        availableProducts
+            .getSelectionModel()
+            .selectedItemProperty()
+            .addListener(
+                new ChangeListener<ProductModel>() {
+                    /**
+                     * Handle ProductModel in the ListView
+                     * @param observable
+                     * @param oldValue
+                     * @param newValue
+                     */
+                    @Override
+                    public void changed(ObservableValue observable, ProductModel oldValue, ProductModel newValue) {
+                        clientIndexController.getSummary().getItems().clear();
+                        offer.setDisable(false);
+                        offer.setText("");
+                        submitOffer.setDisable(false);
+                        selectedProduct = newValue;
+                        if (newValue != null) {
+                            clientIndexController.getClientSummaryController().addProduct(newValue);
+                        }
+                    }
+                });
     }
 
     /**
@@ -102,6 +100,4 @@ public class CreateOfferController {
             }
         }
     }
-
-
 }

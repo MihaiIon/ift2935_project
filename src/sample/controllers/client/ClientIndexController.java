@@ -16,21 +16,17 @@ import sample.models.ClientModel;
 
 public class ClientIndexController {
 
+    private ClientController clientController;
+    private ClientModel currentClient;
+
     @FXML
     private CreateOfferController createOfferController;
-
     @FXML
     private ClientSummaryController clientSummaryController;
-
     @FXML
     private ClientOffersController clientOffersController;
-
     @FXML
     private Label label;        //Title of the view (name of the current client
-
-    private ClientController clientController;
-
-    private ClientModel currentClient;
 
     /**
      *  Tell's it's children who their parent is.
@@ -39,7 +35,6 @@ public class ClientIndexController {
     private void initialize(){
         createOfferController.injectIndexController(this);
         clientOffersController.injectIndexController(this);
-
     }
 
     /**
@@ -47,8 +42,12 @@ public class ClientIndexController {
      */
     @FXML
     public void injectIndexController(ClientController clientController){
-
         this.clientController = clientController;
+    }
+
+    @FXML
+    void backToMain(){
+        MainController.setMainScene();
     }
 
     /**
@@ -79,7 +78,6 @@ public class ClientIndexController {
     }
 
     /**
-     *
      * @return the Client Summary Controller
      */
     public ClientSummaryController getClientSummaryController(){
@@ -87,16 +85,9 @@ public class ClientIndexController {
     }
 
     /**
-     *
      * @return the Data Manager
      */
     public DataManager getDataManager(){
         return clientController.getDataManager();
     }
-
-    @FXML
-    void backToMain(){
-        MainController.setMainScene();
-    }
-
 }
