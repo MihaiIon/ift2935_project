@@ -1,7 +1,6 @@
 package sample.models;
 
 import sample.managers.DataManager;
-
 import java.sql.Timestamp;
 
 public class TransactionModel {
@@ -52,28 +51,10 @@ public class TransactionModel {
     // -----------------------------------------------------------------
     // Getters
 
-
-    public int getId() {
-        return id;
-    }
-
-    public int getSellerId() {
-        return sellerId;
-    }
-
-    public ClientModel getClient() {
-        return client;
-    }
-
-    public OfferModel getOffer() {
-        return offer;
-    }
-
-    public boolean isWasAutomatic() {
-        return wasAutomatic;
-    }
-
-    public Timestamp getTransactionDate() {
-        return transactionDate;
-    }
+    public int getId() { return id; }
+    public int getSellerId() { return sellerId; }
+    public ClientModel getClient() { return client; }
+    public OfferModel getOffer() { return offer; }
+    public boolean isWasAutomatic() { return wasAutomatic; }
+    public Timestamp getTransactionDate() { return transactionDate; }
 }

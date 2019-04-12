@@ -1,7 +1,6 @@
 package sample.models;
 
 import sample.managers.DataManager;
-
 import java.sql.Timestamp;
 
 public class OfferModel {
@@ -46,29 +45,11 @@ public class OfferModel {
     // -----------------------------------------------------------------
     // Getters
 
-    public int getId() {
-        return id;
-    }
-
-    public int getClientId() {
-        return clientId;
-    }
-
-    public int getProductId() {
-        return product.getId();
-    }
-
-    public ProductModel getProduct(){return product;}
-
-    public int getSellerId() {
-        return product.getSellerId();
-    }
-
-    public float getAmount() {
-        return amount;
-    }
-
-    public Timestamp getOfferDate() {
-        return offerDate;
-    }
+    public int getId() { return id; }
+    public int getClientId() { return clientId; }
+    public int getProductId() { return product.getId(); }
+    public ProductModel getProduct(){ return product; }
+    public int getSellerId() { return product.getSellerId(); }
+    public float getAmount() { return amount; }
+    public Timestamp getOfferDate() { return offerDate; }
 }

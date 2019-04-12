@@ -19,10 +19,10 @@ import sample.models.SellerModel;
 
 import java.util.Optional;
 
-
+/**
+ *
+ */
 public class MainController {
-
-
 
     private ClientController clientController;
     private SellerController sellerController;
@@ -33,43 +33,51 @@ public class MainController {
     private int height = 500;
     private int width = 900;
 
-  public static void setMainScene(){
+    // Data Manager
+    // ==========================================================
+    
+    public static void setDataManager(DataManager dataM) {
+        dataManager = dataM;
+    }
+
+    public static DataManager getDataManager(){
+        return dataManager;
+    }
+
+    // Main Scene
+    // ==========================================================
+
+    public static void setMainScene() {
       primaryStage.setScene(mainScene);
       primaryStage.setHeight(350);
       primaryStage.setWidth(180);
       primaryStage.setMinHeight(350);
       primaryStage.setMinWidth(180);
       centerStage(180,350);
-  }
+    }
 
-  public static void centerStage(double width, double height){
+    public static void centerStage(double width, double height){
       Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
       primaryStage.setX((screenBounds.getWidth() - width) / 2);
       primaryStage.setY((screenBounds.getHeight() - height) / 2);
-  }
+    }
 
-
-  public void injectPrimaryStage(Stage primaryStage){
+    public void injectPrimaryStage(Stage primaryStage){
         this.primaryStage = primaryStage;
         this.mainScene = primaryStage.getScene();
-
     }
 
-    public static void setDataManager(DataManager dataM) {
-        dataManager = dataM;
-    }
-    public static DataManager getDataManager(){
-        return dataManager;
-    }
 
     public void changeSizeWindow(Stage primaryStage){
         primaryStage.setMinHeight(height);
         primaryStage.setMinWidth(width);
     }
 
+    // Client Window
+    // ==========================================================
+
     @FXML
     public void client_windows(){
-
         try {
             int id = selectUserPopUp("Client");
             if(id != 0) {
@@ -80,54 +88,31 @@ public class MainController {
                 clientController.setClientId(id);
                 primaryStage.setScene(new Scene(root_client, width, height));
                 centerStage(width,height);
-
                 changeSizeWindow(primaryStage);
             }
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(0);
         }
-
-
     }
 
-    @FXML
-    public void seller_windows(){
-
-        try {
-            int id = selectUserPopUp("Seller");
-            if (id != 0) {
-                FXMLLoader fxmlLoader_seller = new FXMLLoader(getClass().getResource("/sample/views/main_seller.fxml"));
-                Parent root_seller = fxmlLoader_seller.load();
-                sellerController = fxmlLoader_seller.<SellerController>getController();
-                sellerController.setDataManager(dataManager);
-                sellerController.setSellerId(id);
-
-                primaryStage.setScene(new Scene(root_seller, width, height));
-                centerStage(width,height);
-            }
-            } catch(Exception e){
-                e.printStackTrace();
-                System.exit(0);
-            }
-        changeSizeWindow(primaryStage);
-    }
-
+    /**
+     * This helps us to switch between clients and test differents situations.
+     */
     public int selectUserPopUp(String type){
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle(String.format("%s Select",type));
         dialog.setHeaderText(String.format("%s Selection", type));
         dialog.setContentText(String.format("Please enter your %s id:", type.toLowerCase()));
 
-
         Optional<String> result = dialog.showAndWait();
-        if(result.isPresent()){
-            return Integer.valueOf(result.get());
-        }else{
-            return 0;
-        }
+        if(result.isPresent()) return Integer.valueOf(result.get());
+        return 0;
     }
 
+    /**
+     * Creates a custom user: client or seller.
+     */
     @FXML
     void createUser(){
         Dialog<Pair<String,String>> dialog = new Dialog<>();
@@ -136,30 +121,26 @@ public class MainController {
 
         ButtonType oktype = new ButtonType("Confirm", ButtonBar.ButtonData.OK_DONE);
         ButtonType canceltype = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-
         dialog.getDialogPane().getButtonTypes().addAll(oktype, canceltype);
 
-        GridPane grid = new GridPane();
+        // Simple form
+        TextField name = new TextField();
+        name.setPromptText("Name");
+        ObservableList<String> options =
+        FXCollections.observableArrayList(
+            "Seller",
+            "Client"
+            );
+        ComboBox comboBox = new ComboBox(options);
 
+        // Create and set grid
+        GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(20, 150, 10, 10));
-
-        TextField name = new TextField();
-        name.setPromptText("Name");
-
-        ObservableList<String> options =
-                FXCollections.observableArrayList(
-                        "Seller",
-                        "Client"
-                );
-        ComboBox comboBox = new ComboBox(options);
-
         grid.add(name, 0,0);
         grid.add(comboBox,0,1);
-
         dialog.getDialogPane().setContent(grid);
-
         dialog.setResultConverter(dialogButton -> {
             if(dialogButton == oktype){
                 return new Pair<>(name.getText(),(String)comboBox.getValue());
@@ -167,6 +148,7 @@ public class MainController {
             return null;
         });
 
+        // Get result and create user...
         Optional<Pair<String,String>> result = dialog.showAndWait();
         if(result.get().getKey().compareTo("") !=0){
             if(result.get().getValue().compareTo("") !=0){
@@ -185,7 +167,33 @@ public class MainController {
                 }
             }
         }
-
     }
+
+
+
+
+    @FXML
+    public void seller_windows(){
+        try {
+            int id = selectUserPopUp("Seller");
+            if (id != 0) {
+                FXMLLoader fxmlLoader_seller = new FXMLLoader(getClass().getResource("/sample/views/main_seller.fxml"));
+                Parent root_seller = fxmlLoader_seller.load();
+                sellerController = fxmlLoader_seller.<SellerController>getController();
+                sellerController.setDataManager(dataManager);
+                sellerController.setSellerId(id);
+
+                primaryStage.setScene(new Scene(root_seller, width, height));
+                centerStage(width,height);
+            }
+        } catch(Exception e){
+            e.printStackTrace();
+            System.exit(0);
+        }
+        changeSizeWindow(primaryStage);
+    }
+
+    
+
 
 }

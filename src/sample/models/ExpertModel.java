@@ -21,7 +21,5 @@ public class ExpertModel {
         this.rating = rating;
     }
 
-    public int getId(){
-        return id;
-    }
+    public int getId(){ return id; }
 }

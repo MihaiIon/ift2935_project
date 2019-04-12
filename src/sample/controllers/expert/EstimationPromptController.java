@@ -18,25 +18,17 @@ public class EstimationPromptController {
 
     @FXML
     private Label itemName;
-
     @FXML
     private ListView itemInfo;
-
     @FXML
     private TextField estimation;
-
     @FXML
     private Button outsource;
-
     @FXML
     private Button sendEstimation;
 
     private ProductModel productModel;
-
     private ExpertModel expertModel;
-
-
-
     private SellerIndexController sellerIndexController;
 
     /**
@@ -87,11 +79,12 @@ public class EstimationPromptController {
     }
     }
 
+    /**
+     * Close export stage and return to main stage.
+     */
     private void closeStage(ActionEvent event) {
         Node source = (Node)  event.getSource();
         Stage stage  = (Stage) source.getScene().getWindow();
         stage.close();
     }
-
-
 }
