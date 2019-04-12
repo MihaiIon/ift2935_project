@@ -62,8 +62,9 @@ public class EstimationPromptController {
     void outSourcePrice(ActionEvent event){
         Float sellerP = productModel.getSellerPrice();
         // sellerPrice +- 5%
-        float estimate = (float)Math.round((0.95*sellerP)*(Math.random()*(0.1 * sellerP))*100)/100;
-        estimation.setText(String.valueOf(estimate));
+        double estimate = (Math.random()*(1.05*sellerP - 0.95*sellerP)) + 0.95*sellerP;
+        float rounded = (float)Math.round(estimate*100)/100;
+        estimation.setText(String.valueOf(rounded));
     }
 
     /**

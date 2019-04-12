@@ -1,5 +1,7 @@
 package sample.controllers.seller;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
@@ -32,8 +34,24 @@ public class AddProductController {
     @FXML
     private void initialize(){
         submit.setDisable(true);
-    }
+        price.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if(title.getText().compareTo("")!=0) {
+                    submit.setDisable(false);
+                }
+            }
+        });
+        title.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if(price.getText().compareTo("")!=0){
+                    submit.setDisable(false);
+                }
+            }
+        });
 
+    }
 
     public void injectIndexController(SellerIndexController sellerIndexController){
         this.sellerIndexController = sellerIndexController;
